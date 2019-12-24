@@ -1,10 +1,15 @@
 #include <iostream>
-#include <sct/component/component.hpp>
+#include <sct/sct.hpp>
+
 
 class SampleComponent : public sct::component::Component{
 public:
     bool Init() override {
         str = "Hello World!";
+        GetParam("int_test", m_int_test);
+        GetParam("float_test", m_float_test);
+        GetParam("bool_test", m_bool_test);
+        GetParam("string_test", m_string_test);
 
         return true;
     }
@@ -21,5 +26,9 @@ public:
 
 private:
     std::string str;
+    int m_int_test;
+    float m_float_test;
+    bool m_bool_test;
+    std::string m_string_test;    
 };
 

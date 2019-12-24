@@ -66,6 +66,15 @@ protected:
     virtual bool Init() = 0;
 
     /**
+    * @brief init the user fuction. write your own code.
+    *
+    * @param 
+    *
+    * @return returns true if successful, otherwise returns false
+    */
+    virtual bool Init() = 0;
+
+    /**
     * @brief run the user fuction. write your own code.
     *
     * @param 

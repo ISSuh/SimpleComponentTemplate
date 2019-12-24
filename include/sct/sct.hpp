@@ -14,42 +14,12 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SCT_UTIL_ARG_PARSER
-#define SCT_UTIL_ARG_PARSER
+#ifndef SCT
+#define SCT
 
-#include <fstream>
-#include <vector>
-#include <3thParty/json/json.hpp>
-
-using namespace nlohmann;
-
-namespace sct {
-
-namespace util {
-
-template<typename variable>
-void GetArg(std::string key, variable res){
-    
-}
-
-class ArgParser{
-public:
-    ArgParser(const std::string& filePath){
-        std::ifstream readFile(filePath);
-        m_arg = json::parse(readFile);
-    }
-    
-    virtual ~ArgParser();
-
-
-private:
-
-private:
-    json m_arg;
-};
-
-} // namespace util
-
-} // namespace sct
+// #include <sct/component/component.hpp>
+// #include <sct/controller/controller.hpp>
+#include <sct/util/args_parser.hpp>
+#include <sct/util/logger.hpp>
 
 #endif

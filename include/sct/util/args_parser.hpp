@@ -19,13 +19,9 @@
 
 #include <iostream>
 #include <getopt.h>
-#include <fstream>
 #include <vector>
-#include <map>
 
-#include <3thParty/json/json.hpp>
-
-using json = nlohmann::json;
+#include <3thParty/spdlog/spdlog.h>
 
 namespace sct {
 
@@ -33,26 +29,21 @@ namespace util {
 
 class ArgParser{
 public:
-    ArgParser() = default;
+    ArgParser() {};
     virtual ~ArgParser() = default;
 
     void ParseArguments(const int argc, char* const* argv){
+
         ParseOptions(argc, argv);
+    }
 
-        for(auto& i : m_configJsonPath){
-            ParseJsonFile(i);
-        }
-
-        for(auto& i : m_modulsArgs){
-            json test = i.second;
-            std::cout << test.dump(4);
-            std::cout << std::endl;
-        }
+    std::vector<std::string> GetConfgJsonParh() const{
+        return m_configJsonPath;
     }
 
 private:
     void Usage() {
-        std::cout << "\nDisplay\n";
+        spdlog::info("Display");
     }
 
     void ParseOptions(const int argc, char* const* argv){
@@ -69,8 +60,6 @@ private:
             cmd += argv[i];
             cmd += " ";
         }
-
-        std::cout << "\ncommand : " << cmd;
 
         do {
             int opt = getopt_long(argc, argv, shortOptions.c_str(), longOptions, &optionsIndex);
@@ -101,34 +90,8 @@ private:
         } while (true);
     }
 
-    bool ParseJsonFile(const std::string& filePath){
-        std::ifstream readFile(filePath);
-        json arg = json::parse(readFile);
-
-        for(auto& i : arg["moduls"]){
-            std::string modulsName = i["name"].get<std::string>();
-            
-            if(m_modulsArgs.find(modulsName) != m_modulsArgs.end()){
-                std::cout << "Same Moduls Name! [ " << modulsName << " ]\n";
-                exit(0);
-            }
-            
-            m_modulsArgs[modulsName] = i;
-            ++m_numModuls;
-        }
-
-        return true;
-    }
-
-    const size_t GetModulsNum() const {
-        return m_numModuls;
-    }
-
 private:
     std::vector<std::string> m_configJsonPath;
-    std::map<std::string, json> m_modulsArgs;
-
-    size_t m_numModuls;
 };
 
 } // namespace util

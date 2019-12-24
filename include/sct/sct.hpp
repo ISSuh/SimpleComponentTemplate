@@ -17,6 +17,7 @@
 #ifndef SCT
 #define SCT
 
+#include <sct/base/handle.hpp>
 // #include <sct/component/component.hpp>
 // #include <sct/controller/controller.hpp>
 #include <sct/util/args_parser.hpp>

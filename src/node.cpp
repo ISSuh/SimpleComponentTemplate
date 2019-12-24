@@ -13,14 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *****************************************************************************/
-
+#include <memory>
 #include <sct/sct.hpp>
 
-int main(int argc, char** argv) {
+using Handle = sct::base::Handle;
 
-  // parse the argument
-  sct::util::ArgParser nodeArgs;
-  nodeArgs.ParseArguments(argc, argv);
+int main(int argc, char **argv){
+    sct::util::ArgParser argPaser;
+    argPaser.ParseArguments(argc, argv);
 
-  return 0;
+    Handle *h = Handle::GetInstence();
+    h->Init(argPaser.GetConfgJsonParh());
+
+    // Controller control;
+    // control.Init()
+
+    h->WaitForModule();
+    
+    // control.Clear();
+
+    h->Shutdown();
 }

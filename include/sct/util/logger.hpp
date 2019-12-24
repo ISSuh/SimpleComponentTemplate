@@ -32,16 +32,16 @@ using LogerLevel = spdlog::level::level_enum;
 
 class Logger{
 public:
-    Logger(LogerLevel logLevel){
+    Logger(){
         m_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-        m_sink->set_level(logLevel);
         spdlog::set_pattern("*** [%H:%M:%S %z] [thread %t] %v ***");
     };
 
     virtual ~Logger() = default;
 
     void AddLogger(const std::string& loggerName){
-        m_logger[loggerName] = std::make_shared<spdlog::logger>(loggerName, m_sink);      spdlog::register_logger(m_logger[loggerName]);
+        m_logger[loggerName] = std::make_shared<spdlog::logger>(loggerName, m_sink);      
+        spdlog::register_logger(m_logger[loggerName]);
     }
 
     void SetLoggerLevel(const std::string& loggerName, LogerLevel logLevel){

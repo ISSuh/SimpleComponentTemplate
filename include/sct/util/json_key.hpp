@@ -14,34 +14,23 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SCT_BASE_INIT
-#define SCT_BASE_INIT
+#ifndef SCT_UTIL_JSON_KEY
+#define SCT_UTIL_JSON_KEY
 
-namespace sct {
+namespace sct{
 
-namespace base {
+namespace util{
 
-// TODO : Implement Singleton Class
-/**
- *  Handle Class
- *  
- *  Singleton Class
- *  Init argument & return argument for every user module
- *  Init schduler
- *  Wait for user module
- *  Clear & Shutdown all module 
- * 
- **/
-class Handle(){
-    virtual ~Init() {};
+#define JSONKEY_MODULES "modules"
+#define JSONKEY_NAME "name"
+#define JSONKEY_MODULE_PATH "module_path"
+#define JSONKEY_COMPONEMTS "components"
+#define JSONKEY_CLASS_NAME "class_name"
+#define JSONKEY_CONFIGURE "configure"
+#define JSONKEY_THREADING "threading"
+#define JSONKEY_ARGS "args"
 
-protected :
-    Init(){
-
-    };
-};
-
-} // namespace base
+} // namespace util
 
 } // namespace sct
 

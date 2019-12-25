@@ -30,14 +30,12 @@ namespace util{
 
 using LogerLevel = spdlog::level::level_enum;
 
-class Logger{
+class Logger final {
 public:
     Logger(){
         m_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
         spdlog::set_pattern("*** [%H:%M:%S %z] [thread %t] %v ***");
     };
-
-    virtual ~Logger() = default;
 
     void AddLogger(const std::string& loggerName){
         m_logger[loggerName] = std::make_shared<spdlog::logger>(loggerName, m_sink);      

@@ -24,6 +24,17 @@ namespace sct {
 
 namespace controller {
 
+// TODO : Implement ComponentController Class
+/**
+ *  ComponentController Class
+ *  
+ *  Init user components class
+ *  Load all user components class
+ *  Add user components class
+ *  Clear user components class 
+ *  scheduling user components class 
+ * 
+ **/
 class ComponentController {
 
 };

@@ -21,14 +21,14 @@ namespace sct{
 
 namespace util{
 
-#define JSONKEY_MODULES "modules"
-#define JSONKEY_NAME "name"
-#define JSONKEY_MODULE_PATH "module_path"
-#define JSONKEY_COMPONEMTS "components"
-#define JSONKEY_CLASS_NAME "class_name"
-#define JSONKEY_CONFIGURE "configure"
-#define JSONKEY_THREADING "threading"
-#define JSONKEY_ARGS "args"
+const std::string JSONKEY_MODULES     ("modules");
+const std::string JSONKEY_NAME        ("name");
+const std::string JSONKEY_MODULE_PATH ("module_path");
+const std::string JSONKEY_COMPONEMTS  ("components");
+const std::string JSONKEY_CLASS_NAME  ("class_name");
+const std::string JSONKEY_CONFIGURE   ("configure");
+const std::string JSONKEY_THREADING   ("threading");
+const std::string JSONKEY_ARGS        ("args");
 
 } // namespace util
 

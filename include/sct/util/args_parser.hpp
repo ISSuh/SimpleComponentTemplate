@@ -27,13 +27,9 @@ namespace sct {
 
 namespace util {
 
-class ArgParser{
-public:
-    ArgParser() {};
-    virtual ~ArgParser() = default;
-
+class ArgParser final {
+public:    
     void ParseArguments(const int argc, char* const* argv){
-
         ParseOptions(argc, argv);
     }
 

@@ -1,0 +1,46 @@
+@startuml Overview v0.0.1
+
+node "Simple Components Template Node V0.0.1"{
+    frame "Handle" {
+        modules_arguments -right-> User_Module_1
+        modules_arguments -right-> User_Module_2
+
+        interface wait_for_user_modules
+    }
+
+    frame "Module_Controller" {
+
+        Controller_Init -down-> Controller_Moudle_Loading
+
+        storage "Controller_Moudle_Loading"{
+            
+            frame "Module_Loader" {
+
+                storage "Loading_User_modules"
+                storage "Unloading_User_modules"
+
+                Loading_User_modules -down-> User_Module_1  
+                Loading_User_modules -down-> User_Module_2  
+
+                frame "User_Module_1" {
+                    User_Module_1_Init -down-> User_Module_1_Run
+                    User_Module_1_Run -down-> User_Module_1_Clear
+                }
+
+                frame "User_Module_2" {
+                    User_Module_2_Init -down-> User_Module_2_Run
+                    User_Module_2_Run -down-> User_Module_2_Clear
+                }
+          
+                User_Module_1 -down-> Unloading_User_modules  
+                User_Module_2 -down-> Unloading_User_modules  
+
+            }
+        }
+
+        Controller_Moudle_Loading -down-> Controller_Clear
+
+    }
+}
+
+@enduml

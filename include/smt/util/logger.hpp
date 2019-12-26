@@ -14,8 +14,8 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SCT_UTIL_LOGGER
-#define SCT_UTIL_LOGGER
+#ifndef SMT_UTIL_LOGGER
+#define SMT_UTIL_LOGGER
 
 #include <iostream>
 #include <memory>
@@ -24,7 +24,7 @@
 #include <3thParty/spdlog/spdlog.h>
 #include <3thParty/spdlog/sinks/stdout_color_sinks.h>
 
-namespace sct{
+namespace smt{
 
 namespace util{
 
@@ -53,6 +53,6 @@ private:
 
 } // namespace utin
 
-} // namespace sct
+} // namespace smt
 
 #endif

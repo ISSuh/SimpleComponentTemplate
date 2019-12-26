@@ -1,6 +1,14 @@
 # SimpleComponentTemplate
 
-SimpleComponentTemplate(SCT) is template for module based programming(C++ 11).
+SimpleComponentTemplate(smt) is template for module based programming(C++ 11).
+
+## Overview
+
+### System Diagram
+
+![Alt text](./doc/assets/overview.png)
+
+
 
 ## 3th Party library
 

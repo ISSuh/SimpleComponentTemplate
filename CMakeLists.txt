@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.7)
-PROJECT (SCT)
+PROJECT (SMT)
 
 SET ( CMAKE_C_COMPILER g++)
 set ( CMAKE_CXX_STANDARD 11)
@@ -30,16 +30,16 @@ include_directories(
 
 )
 
-set(sctNode_SOURCE
+set(smtNode_SOURCE
 	${PROJECT_SOURCE_DIR}/src/node.cpp
 )
 
 #-------------------------------------------------------------------------------
 #  example build
 #-------------------------------------------------------------------------------
-add_executable(sctNode ${sctNode_SOURCE})
-target_link_libraries(sctNode
+add_executable(smtNode ${smtNode_SOURCE})
+target_link_libraries(smtNode
 
 )
 
-set_property(TARGET sctNode PROPERTY FOLDER "build")
+set_property(TARGET smtNode PROPERTY FOLDER "build")

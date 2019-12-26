@@ -14,24 +14,27 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SCT_BASE_HANDLE
-#define SCT_BASE_HANDLE
+#ifndef SMT_BASE_HANDLE
+#define SMT_BASE_HANDLE
 
 #include <atomic>
 #include <mutex>
 #include <memory>
 #include <map>
 #include <fstream>
+#include <chrono>
+#include <thread>
 
-#include <sct/util/logger.hpp>
-#include <sct/util/json_key.hpp>
+#include <smt/util/logger.hpp>
+#include <smt/util/json_key.hpp>
 
 #include <3thParty/json/json.hpp>
 #include <3thParty/spdlog/spdlog.h>
 
 using json = nlohmann::json;
+using namespace smt::util; 
 
-namespace sct {
+namespace smt {
 
 namespace base {
 
@@ -48,6 +51,14 @@ namespace base {
 
 class Handle{
 public:
+    
+    /**
+    * @brief Get handle for globally
+    *
+    * @param 
+    *
+    * @return returns static Handle object
+    */
     static Handle* GetInstence(){
         if(m_instance == nullptr) {
             std::lock_guard<std::mutex> lock(m_mutex);
@@ -59,6 +70,13 @@ public:
         return m_instance;
     }
 
+    /**
+    * @brief init Handle
+    *
+    * @param const std::vector<std::string>& path of configure JSON
+    *
+    * @return void
+    */
     void Init(const std::vector<std::string>& configJsonPath) {
         m_logger.AddLogger("Handle");
         m_log = spdlog::get("Handle");
@@ -68,18 +86,52 @@ public:
         }
 
         for(auto& i : m_modulsArgs){
-            m_logger.AddLogger(i.second[JSONKEY_COMPONEMTS][JSONKEY_CLASS_NAME].get<std::string>());
+            m_logger.AddLogger(i.second[JSONKEY_MODULE][JSONKEY_CLASS_NAME].get<std::string>());
         }
     };
 
-    void WaitForModule() {};
+    /**
+    * @brief wait for user components
+    *
+    * @param int rate of millisecond sleep
+    *
+    * @return void
+    */
+    void WaitForModule(const int& rate) {
+        while(m_isRunning.load()){
+            std::this_thread::sleep_for(std::chrono::milliseconds(rate));
+        }
+    };
 
-    void Shutdown() {};
+    /**
+    * @brief shutdown main node 
+    *
+    * @param 
+    *
+    * @return void
+    */
+    void Shutdown() {
 
+    };
+
+    /**
+    * @brief Get module's argument globally
+    *
+    * @param const std::string& name of user modules
+    *
+    * @return returns json about user module's arguments
+    */
     const json& GetParsedArguments(const std::string& moduleName){
         return m_modulsArgs[moduleName];
     }
 
+    /**
+    * @brief Get number of user modules
+    *
+    * @param 
+    *
+    * @return returns number of user modules
+    */
     const size_t GetModulsNum() const {
         return m_numModuls;
     }
@@ -91,6 +143,13 @@ protected :
     Handle() {};
 
 private:
+    /**
+    * @brief Parse user module's argument
+    *
+    * @param const std::string& JSON file path
+    *
+    * @return returns true if successful, otherwise returns false
+    */
     bool ParseJsonFile(const std::string& filePath){
         std::ifstream readFile(filePath);
         json arg = json::parse(readFile);
@@ -112,15 +171,15 @@ private:
 
 private:
     std::shared_ptr<spdlog::logger> m_log;
+    Logger m_logger;
 
     static std::atomic<Handle*> m_instance;
     static std::mutex m_mutex;
 
-    sct::util::Logger m_logger;
-
     std::map<std::string, json> m_modulsArgs;
     size_t m_numModuls;
 
+    std::atomic<bool> m_isRunning;
 };
 
 std::atomic<Handle*> Handle::m_instance { nullptr };
@@ -128,6 +187,6 @@ std::mutex Handle::m_mutex;
 
 } // namespace base
 
-} // namespace sct
+} // namespace smt
 
 #endif

@@ -14,13 +14,34 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SCT
-#define SCT
+#ifndef SMT_MODULE_MODULE_BASE
+#define SMT_MODULE_MODULE_BASE
 
-#include <sct/base/handle.hpp>
-// #include <sct/component/component.hpp>
-// #include <sct/controller/controller.hpp>
-#include <sct/util/args_parser.hpp>
-#include <sct/util/logger.hpp>
+#include <iostream>
+#include <memory>
+#include <atomic>
+
+namespace smt {
+
+namespace module {
+
+class ModuleBase : public std::enable_shared_from_this<ModuleBase>{
+public:
+    virtual ~ModuleBase() {};
+
+    virtual bool Initialize() { return false; }
+
+    virtual bool Process() { return false; }
+
+    virtual bool Shutdown() { return false; }
+
+private:
+    // std::atomic<bool> m_isShutdown = { false };
+    // std::string m_moduleName;
+};
+
+} // namspace module
+
+} // namspace smt
 
 #endif

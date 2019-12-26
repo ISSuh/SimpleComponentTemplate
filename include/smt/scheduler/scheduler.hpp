@@ -14,10 +14,10 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SCT_SCHEDULER_SCHEDULER
-#define SCT_SCHEDULER_SCHEDULER
+#ifndef SMT_SCHEDULER_SCHEDULER
+#define SMT_SCHEDULER_SCHEDULER
 
-namespace sct {
+namespace smt {
 
 namespace scheduler {
 
@@ -36,6 +36,6 @@ class Scheduler {
 
 } // scheduler
 
-} // sct
+} // smt
 
 #endif

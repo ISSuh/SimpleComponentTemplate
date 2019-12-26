@@ -14,8 +14,8 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SCT_UTIL_ARG_PARSER
-#define SCT_UTIL_ARG_PARSER
+#ifndef SMT_UTIL_ARG_PARSER
+#define SMT_UTIL_ARG_PARSER
 
 #include <iostream>
 #include <getopt.h>
@@ -23,7 +23,7 @@
 
 #include <3thParty/spdlog/spdlog.h>
 
-namespace sct {
+namespace smt {
 
 namespace util {
 
@@ -92,6 +92,6 @@ private:
 
 } // namespace util
 
-} // namespace sct
+} // namespace smt
 
 #endif

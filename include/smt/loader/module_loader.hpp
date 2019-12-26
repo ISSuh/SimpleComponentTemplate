@@ -14,24 +14,39 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SCT_UTIL_JSON_KEY
-#define SCT_UTIL_JSON_KEY
+#ifndef SMT_CONTROLLER_MODUL_LOADER
+#define SMT_CONTROLLER_MODUL_LOADER
 
-namespace sct{
+#include <vector>
+#include <memory>
 
-namespace util{
+namespace smt {
 
-const std::string JSONKEY_MODULES     ("modules");
-const std::string JSONKEY_NAME        ("name");
-const std::string JSONKEY_MODULE_PATH ("module_path");
-const std::string JSONKEY_COMPONEMTS  ("components");
-const std::string JSONKEY_CLASS_NAME  ("class_name");
-const std::string JSONKEY_CONFIGURE   ("configure");
-const std::string JSONKEY_THREADING   ("threading");
-const std::string JSONKEY_ARGS        ("args");
+namespace loader {
 
-} // namespace util
+// TODO : Implement ComponentController Class
+/**
+ *  ComponentController Class
+ *  
+ *  Init user components class
+ *  Load all user components class
+ *  Add user components class
+ *  Clear user components class 
+ *  scheduling user components class 
+ * 
+ **/
+class ModuleLoader final {
+public:
+    void Loading() {};
 
-} // namespace sct
+    void UnLoading() {};
+
+private:
+
+};
+
+} // controller
+
+} // smt
 
 #endif

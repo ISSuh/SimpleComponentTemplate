@@ -14,34 +14,12 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SCT_COMPONENT_COMPONENT_BASE
-#define SCT_COMPONENT_COMPONENT_BASE
+#ifndef SMT
+#define SMT
 
-#include <iostream>
-#include <memory>
-#include <atomic>
-
-namespace sct {
-
-namespace component {
-
-class ComponentBase : public std::enable_shared_from_this<ComponentBase>{
-public:
-    virtual ~ComponentBase() {};
-
-    virtual bool Initialize() { return false; }
-
-    virtual bool Process() { return false; }
-
-    virtual bool Shutdown() { return false; }
-
-private:
-    std::atomic<bool> m_isShutdown = {false};
-    std::string m_componentName;
-};
-
-} // namspace component
-
-} // namspace sct
+#include <smt/base/handle.hpp>
+#include <smt/controller/module_controller.hpp>
+#include <smt/util/args_parser.hpp>
+#include <smt/util/logger.hpp>
 
 #endif

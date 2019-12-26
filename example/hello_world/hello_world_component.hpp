@@ -1,8 +1,7 @@
 #include <iostream>
-#include <sct/sct.hpp>
+#include <smt/smt.hpp>
 
-
-class SampleComponent : public sct::component::Component{
+class SampleModule : public smt::module::Module{
 public:
     bool Init() override {
         str = "Hello World!";

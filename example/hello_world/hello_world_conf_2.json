@@ -3,9 +3,9 @@
     [
         {
             "name" : "Sample_2",
-            "module_path" : "/Users/inseocksuh/projects/SimpleComponentTemplate/example/hello_world/libhello_world.so",
-            "components" : {
-                "class_name" : "SampleComponent",
+            "module_path" : "/Users/inseocksuh/projects/SimpleModuleTemplate/example/hello_world/libhello_world.so",
+            "module" : {
+                "class_name" : "SampleModule",
                 "configure" : {
                     "threading" : false,
                     "args" : {
@@ -20,8 +20,8 @@
         {
             "name" : "Sample_2",
             "module_path" : "/Users/inseocksuh/projects/SimpleComponentTemplate/example/hello_world/libhello_world.so",
-            "components" : {
-                "class_name" : "SampleComponent_dumy",
+            "module" : {
+                "class_name" : "SampleModule_dumy",
                 "configure" : {
                     "threading" : false,
                     "args" : {

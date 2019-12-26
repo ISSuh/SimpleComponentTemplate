@@ -4,7 +4,7 @@
         {
             "name" : "Sample_0",
             "module_path" : "/Users/inseocksuh/projects/SimpleComponentTemplate/example/hello_world/libhello_world.so",
-            "components" : {
+            "module" : {
                 "class_name" : "SampleComponent",
                 "configure" : {
                     "threading" : false,
@@ -20,7 +20,7 @@
         {
             "name" : "Sample_1",
             "module_path" : "/Users/inseocksuh/projects/SimpleComponentTemplate/example/hello_world/libhello_world.so",
-            "components" : {
+            "module" : {
                 "class_name" : "SampleComponent_dumy",
                 "configure" : {
                     "threading" : false,

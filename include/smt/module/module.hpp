@@ -14,22 +14,22 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SCT_COMPONENT_COMPONENT
-#define SCT_COMPONENT_COMPONENT
+#ifndef SMT_MODULE_MODULE
+#define SMT_MODULE_MODULE
 
 #include <iostream>
 #include <memory>
 
-#include <sct/component/component_base.hpp>
+#include <smt/module/module_base.hpp>
 
-namespace sct {
+namespace smt {
 
-namespace component {
+namespace module {
 
-class Component : public sct::component::ComponentBase{
+class Module : public smt::module::ModuleBase{
 public:
-    Component() {}
-    ~Component() override {}
+    Module() {}
+    ~Module() override {}
 
     bool Initialize() override { 
         if(!Init()){
@@ -66,15 +66,6 @@ protected:
     virtual bool Init() = 0;
 
     /**
-    * @brief init the user fuction. write your own code.
-    *
-    * @param 
-    *
-    * @return returns true if successful, otherwise returns false
-    */
-    virtual bool Init() = 0;
-
-    /**
     * @brief run the user fuction. write your own code.
     *
     * @param 
@@ -93,11 +84,10 @@ protected:
     virtual bool Clear() = 0;
 
 private:
-    std::string str;
 };
 
-} // namspace component
+} // namspace module
 
-} // namspace sct
+} // namspace smt
 
 #endif

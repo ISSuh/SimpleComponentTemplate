@@ -13,24 +13,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *****************************************************************************/
+
+#ifndef SMT_CONTROLLER_MODUL_CONTROLLER
+#define SMT_CONTROLLER_MODUL_CONTROLLER
+
+#include <vector>
 #include <memory>
-#include <smt/smt.hpp>
 
-using Handle = smt::base::Handle;
+#include <smt/module/module_base.hpp>
+#include <smt/loader/module_loader.hpp>
 
-int main(int argc, char **argv){
-    smt::util::ArgParser argPaser;
-    argPaser.ParseArguments(argc, argv);
 
-    Handle *h = Handle::GetInstence();
-    h->Init(argPaser.GetConfgJsonParh());
+namespace smt {
 
-    smt::controller::ModuleController controller;
-    controller.Init();
+namespace controller {
 
-    h->WaitForModule(100);
-    
-    controller.Clear();
+// TODO : Implement ComponentController Class
+/**
+ *  ComponentController Class
+ *  
+ *  Init user components class
+ *  Load all user components class
+ *  Add user components class
+ *  Clear user components class 
+ *  scheduling user components class 
+ * 
+ **/
+class ModuleController {
+public:
+    bool Init() {};
+    void Clear() {};
 
-    h->Shutdown();
-}
+private:
+    bool LoadAllModule() {};
+
+    bool LoadMoule() {};
+
+private:
+    smt::loader::ModuleLoader m_loader;
+    std::vector<std::shared_ptr<smt::module::ModuleBase>> m_moduleLists;
+};
+
+} // controller
+
+} // smt
+
+#endif

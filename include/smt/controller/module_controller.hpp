@@ -21,36 +21,36 @@
 #include <memory>
 
 #include <smt/module/module_base.hpp>
-#include <smt/loader/module_loader.hpp>
-
+#include <smt/loader/module_load_manager.hpp>
 
 namespace smt {
 
 namespace controller {
 
-// TODO : Implement ComponentController Class
+// TODO : Implement ModuleController Class
 /**
- *  ComponentController Class
- *  
- *  Init user components class
- *  Load all user components class
- *  Add user components class
- *  Clear user components class 
- *  scheduling user components class 
+ *  ModuleController Class
  * 
  **/
 class ModuleController {
 public:
-    bool Init() {};
-    void Clear() {};
+    bool Init() { 
+        return false;
+    }
+
+    void Clear() {}
 
 private:
-    bool LoadAllModule() {};
+    bool LoadAllModule() {
+        return false;
+    }
 
-    bool LoadMoule() {};
+    bool LoadMoule() {
+        return false;
+    }
 
 private:
-    smt::loader::ModuleLoader m_loader;
+    smt::loader::ModuleLoadManager m_loadManager;
     std::vector<std::shared_ptr<smt::module::ModuleBase>> m_moduleLists;
 };
 

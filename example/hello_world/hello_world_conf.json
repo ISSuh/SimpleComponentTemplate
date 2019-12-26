@@ -1,8 +1,10 @@
-{
+{   
+    "node_name" : "helloworld",
+    "log_level" : "debug",
     "modules" : 
     [
         {
-            "name" : "Sample_0",
+            "module_name" : "Sample_0",
             "module_path" : "/Users/inseocksuh/projects/SimpleComponentTemplate/example/hello_world/libhello_world.so",
             "module" : {
                 "class_name" : "SampleModule",
@@ -18,7 +20,7 @@
             }
         },
         {
-            "name" : "Sample_1",
+            "module_name" : "Sample_1",
             "module_path" : "/Users/inseocksuh/projects/SimpleComponentTemplate/example/hello_world/libhello_world.so",
             "module" : {
                 "class_name" : "SampleModule",

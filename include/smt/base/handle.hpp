@@ -155,7 +155,7 @@ private:
         json arg = json::parse(readFile);
 
         for(auto& i : arg[JSONKEY_MODULES]){
-            const std::string moduleName = i[JSONKEY_NAME].get<std::string>();
+            const std::string moduleName = i[JSONKEY_MODULE_NAME].get<std::string>();
             
             if(m_modulsArgs.find(moduleName) != m_modulsArgs.end()){
                 m_log->error("Same Module Name!");
@@ -179,7 +179,7 @@ private:
     std::map<std::string, json> m_modulsArgs;
     size_t m_numModuls;
 
-    std::atomic<bool> m_isRunning;
+    std::atomic<bool> m_isRunning = { false };
 };
 
 std::atomic<Handle*> Handle::m_instance { nullptr };

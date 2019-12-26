@@ -21,8 +21,10 @@ namespace smt{
 
 namespace util{
 
+const std::string JSONKEY_NODE_NAME   ("node_name");
+const std::string JSONKEY_LOG_LEVEL   ("log_level");
 const std::string JSONKEY_MODULES     ("modules");
-const std::string JSONKEY_NAME        ("name");
+const std::string JSONKEY_MODULE_NAME ("module_name");
 const std::string JSONKEY_MODULE_PATH ("module_path");
 const std::string JSONKEY_MODULE      ("module");
 const std::string JSONKEY_CLASS_NAME  ("class_name");

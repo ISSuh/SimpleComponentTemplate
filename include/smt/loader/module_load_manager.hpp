@@ -14,41 +14,40 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SMT_CONTROLLER_MODUL_LOADER
-#define SMT_CONTROLLER_MODUL_LOADER
+#ifndef SMT_CONTROLLER_MODUL_LOAD_MANAGER
+#define SMT_CONTROLLER_MODUL_LOAD_MANAGER
 
-#include <vector>
+#include <map>
 #include <memory>
+
+#include <smt/loader/module_loader.hpp>
 
 namespace smt {
 
 namespace loader {
 
-// TODO : Implement ComponentController Class
+// TODO : Implement ModuleLoaderManager Class
 /**
- *  ComponentController Class
+ *  ModuleLoaderManager Class
  *  
- *  Init user components class
- *  Load all user components class
- *  Add user components class
- *  Clear user components class 
- *  scheduling user components class 
  * 
  **/
-class ModuleLoader {
+class ModuleLoadManager {
 public:
-    explicit ModuleLoader();
-    virtual ~ModuleLoader();
+    ModuleLoadManager();
+    virtual ~ModuleLoadManager();
 
     void LoadModule() {}
-    
+
     template <typename ModuleClass>
     std::shared_ptr<ModuleClass> CreateClassObj() {}
 
     void UnLoadModule() {}
 
 private:
-    int m_loadedModule_count = 0;
+
+private:
+    std::map<std::string, std::unique_ptr<smt::loader::ModuleLoader>> m_loader_map;
 };
 
 } // loader

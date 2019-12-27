@@ -27,6 +27,8 @@ namespace smt {
 
 namespace controller {
 
+using json = nlohmann::json;
+
 // TODO : Implement ModuleController Class
 /**
  *  ModuleController Class
@@ -40,7 +42,7 @@ public:
     
     bool Init() {
         if(!LoadAllModule()){
-            
+            m_log->error("Fail Load Module");
             return false;
         }
 
@@ -51,10 +53,20 @@ public:
 
 private:
     bool LoadAllModule() {
-        return false;
+        auto arg = m_handle.GetAllArguments();
+
+        for(const auto& i : arg){
+            if(!LoadMoule(m_handle.GetArguments_map(i.first))){
+                return false;
+            }
+        }
+
+        return true;
     }
 
-    bool LoadMoule() {
+    bool LoadMoule(const json& arg) {
+        m_loadManager.LoadModule();
+
         return false;
     }
 

@@ -122,7 +122,19 @@ public:
     *
     * @return returns json about user module's arguments
     */
-    const json& GetParsedArguments(const std::string& moduleName){
+    const std::map<std::string, json>& GetAllArguments(){
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_modulsArgs;
+    }
+
+    /**
+    * @brief Get module's argument globally
+    *
+    * @param const std::string& name of user modules
+    *
+    * @return returns json about user module's arguments
+    */
+    const json& GetArguments_map(const std::string& moduleName){
         std::lock_guard<std::mutex> lock(m_mutex);
         return m_modulsArgs[moduleName];
     }

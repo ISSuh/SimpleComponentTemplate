@@ -27,14 +27,24 @@ namespace smt {
 
 namespace util {
 
+using json = nlohmann::json;
+
 class ArgParser final {
 public:    
     void ParseArguments(const int argc, char* const* argv){
         ParseOptions(argc, argv);
+
+        for(auto& i : m_configJsonPath){
+            ParseJsonFile(i);
+        }
     }
 
     std::vector<std::string> GetConfgJsonParh() const{
         return m_configJsonPath;
+    }
+
+    const std::map<std::string, json>& GetParsedJson() const{
+        return m_modulsArgs;
     }
 
 private:
@@ -86,8 +96,25 @@ private:
         } while (true);
     }
 
+    void ParseJsonFile(const std::string& filePath){
+        std::ifstream readFile(filePath);
+        json arg = json::parse(readFile);
+
+        for(auto& i : arg[JSONKEY_MODULES]){
+            const std::string moduleName = i[JSONKEY_MODULE_NAME].get<std::string>();
+            
+            if(m_modulsArgs.find(moduleName) != m_modulsArgs.end()){
+                spdlog::error("Same Module Name!");
+                exit(0);
+            }
+            
+            m_modulsArgs[moduleName] = i;
+        }
+    }
+
 private:
     std::vector<std::string> m_configJsonPath;
+    std::map<std::string, json> m_modulsArgs;
 };
 
 } // namespace util

@@ -1,6 +1,6 @@
 @startuml Overview v0.0.1
 
-node "Simple Components Template Node V0.0.1"{
+node "Simple Module Template Node V0.0.1"{
     frame "Handle" {
         modules_arguments -right-> User_Module_1
         modules_arguments -right-> User_Module_2

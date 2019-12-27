@@ -34,8 +34,17 @@ namespace controller {
  **/
 class ModuleController {
 public:
-    bool Init() { 
-        return false;
+    explicit ModuleController(smt::base::Handle &handle) : m_handle(handle) {
+        m_log = spdlog::get(m_handle.GetNodeName());
+    }
+    
+    bool Init() {
+        if(!LoadAllModule()){
+            
+            return false;
+        }
+
+        return true;
     }
 
     void Clear() {}
@@ -50,6 +59,9 @@ private:
     }
 
 private:
+    std::shared_ptr<spdlog::logger> m_log;
+    smt::base::Handle &m_handle;
+
     smt::loader::ModuleLoadManager m_loadManager;
     std::vector<std::shared_ptr<smt::module::ModuleBase>> m_moduleLists;
 };

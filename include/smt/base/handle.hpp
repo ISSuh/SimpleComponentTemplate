@@ -31,12 +31,12 @@
 #include <3thParty/json/json.hpp>
 #include <3thParty/spdlog/spdlog.h>
 
-using json = nlohmann::json;
-using namespace smt::util; 
-
 namespace smt {
 
 namespace base {
+
+using json = nlohmann::json;
+using namespace smt::util; 
 
 // TODO : Implement Singleton Class
 /**
@@ -59,11 +59,11 @@ public:
     *
     * @return returns static Handle object
     */
-    static Handle* GetInstence(){
+    static Handle* GetInstence(const std::map<std::string, json>& moduleArgs){
         if(m_instance == nullptr) {
             std::lock_guard<std::mutex> lock(m_mutex);
             if(m_instance == nullptr) {
-                m_instance = new Handle();
+                m_instance = new Handle(moduleArgs);
             }
         }
 
@@ -77,16 +77,17 @@ public:
     *
     * @return void
     */
-    void Init(const std::vector<std::string>& configJsonPath) {
-        m_logger.AddLogger("Handle");
-        m_log = spdlog::get("Handle");
+    void Init() {
+        // Set Logger
+        {
+            m_nodeName = m_modulsArgs[JSONKEY_NODE_NAME].get<std::string>();
 
-        for(auto& i : configJsonPath){
-            ParseJsonFile(i);
-        }
+            m_logger.AddLogger(m_nodeName);
+            m_log = spdlog::get(m_nodeName);
 
-        for(auto& i : m_modulsArgs){
-            m_logger.AddLogger(i.second[JSONKEY_MODULE][JSONKEY_CLASS_NAME].get<std::string>());
+            for(auto& i : m_modulsArgs){
+                m_logger.AddLogger(i.second[JSONKEY_MODULE][JSONKEY_CLASS_NAME].get<std::string>());
+            }
         }
     };
 
@@ -122,6 +123,7 @@ public:
     * @return returns json about user module's arguments
     */
     const json& GetParsedArguments(const std::string& moduleName){
+        std::lock_guard<std::mutex> lock(m_mutex);
         return m_modulsArgs[moduleName];
     }
 
@@ -133,41 +135,29 @@ public:
     * @return returns number of user modules
     */
     const size_t GetModulsNum() const {
-        return m_numModuls;
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_modulsArgs.size();
+    }
+
+    /**
+    * @brief Get number of user modules
+    *
+    * @param 
+    *
+    * @return returns number of user modules
+    */
+    const std::string& GetNodeName() const {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_nodeName;
     }
 
     Handle(Handle const&) = delete;
     void operator=(Handle const&) = delete;
 
 protected :
-    Handle() {};
+    Handle(const std::map<std::string, json>& moduleArgs) : m_modulsArgs(moduleArgs) {};
 
 private:
-    /**
-    * @brief Parse user module's argument
-    *
-    * @param const std::string& JSON file path
-    *
-    * @return returns true if successful, otherwise returns false
-    */
-    bool ParseJsonFile(const std::string& filePath){
-        std::ifstream readFile(filePath);
-        json arg = json::parse(readFile);
-
-        for(auto& i : arg[JSONKEY_MODULES]){
-            const std::string moduleName = i[JSONKEY_MODULE_NAME].get<std::string>();
-            
-            if(m_modulsArgs.find(moduleName) != m_modulsArgs.end()){
-                m_log->error("Same Module Name!");
-                exit(0);
-            }
-            
-            m_modulsArgs[moduleName] = i;
-            ++m_numModuls;
-        }
-
-        return true;
-    }
 
 private:
     std::shared_ptr<spdlog::logger> m_log;
@@ -177,9 +167,10 @@ private:
     static std::mutex m_mutex;
 
     std::map<std::string, json> m_modulsArgs;
-    size_t m_numModuls;
 
     std::atomic<bool> m_isRunning = { false };
+
+    std::string m_nodeName;
 };
 
 std::atomic<Handle*> Handle::m_instance { nullptr };

@@ -34,9 +34,6 @@ namespace loader {
  **/
 class ModuleLoadManager {
 public:
-    ModuleLoadManager();
-    virtual ~ModuleLoadManager();
-
     void LoadModule() {}
 
     template <typename ModuleClass>

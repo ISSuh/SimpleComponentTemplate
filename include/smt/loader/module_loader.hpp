@@ -37,9 +37,6 @@ namespace loader {
  **/
 class ModuleLoader {
 public:
-    explicit ModuleLoader();
-    virtual ~ModuleLoader();
-
     void LoadModule() {}
     
     template <typename ModuleClass>

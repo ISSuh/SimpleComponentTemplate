@@ -1,0 +1,40 @@
+@startuml Data Struct v0.0.1
+
+node "Handle"{
+    object Argument_path_vector{
+        val = string    // arguments file path list
+    }
+
+    object Argument_map{
+        key = string    // module name
+        val = json      // json structed arguments
+    }
+}
+
+node "ModuleController"{
+    object ModuleLists_vector{
+        val = std::shared_ptr<smt::module::ModuleBase>> // user modules lisrt 
+    }
+
+    node "ModuleLoadManager"{
+        object Loader_map{
+            key = string                     // module name
+            val = smt::loader::ModuleLoader* // ModlueLoader class ptr
+        }
+    }
+
+}
+
+node "Global"{
+    object UserModuleClass_map{
+        key = string                     // registed user module name
+        val = UserModuleClassFactoryMap  // User class's base class ptr
+    }
+
+    object UserModuleClassFactor_map{
+        key = string                      // Name of user class 
+        val = smt::module::ClassFactory   // User class's base class ptr
+    }
+}
+
+@enduml

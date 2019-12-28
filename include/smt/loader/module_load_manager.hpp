@@ -20,6 +20,7 @@
 #include <map>
 #include <memory>
 
+#include <smt/base/handle.hpp>
 #include <smt/loader/module_loader.hpp>
 
 namespace smt {
@@ -34,17 +35,33 @@ namespace loader {
  **/
 class ModuleLoadManager {
 public:
-    void LoadModule() {}
+    explicit ModuleLoadManager() : m_handle(smt::base::Handle::GetInstence()), m_log(spdlog::get(m_handle->GetNodeName())) {}
 
+    void LoadModule() {}
+    
     template <typename ModuleClass>
-    std::shared_ptr<ModuleClass> CreateClassObj() {}
+    std::shared_ptr<ModuleClass> CreateClassObj(const std::string& className, const std::string& moduleName ) {
+        ModuleLoader* loader = GetModuleLoader(moduleName);
+        if(loader){
+            return loader->CreateClassObj<ModuleClass>(className);
+        }
+
+        m_log->error("Could not create user class obj {}", className);
+        return std::shared_ptr<ModuleClass>();
+    }
 
     void UnLoadModule() {}
 
 private:
-
+    ModuleLoader* GetModuleLoader(const std::string& moduleName) {
+        return m_loader_map[moduleName];
+    }
+    
 private:
-    std::map<std::string, std::unique_ptr<smt::loader::ModuleLoader>> m_loader_map;
+    smt::base::Handle* m_handle;
+    std::shared_ptr<spdlog::logger> m_log;
+
+    std::map<std::string, smt::loader::ModuleLoader*> m_loader_map;
 };
 
 } // loader

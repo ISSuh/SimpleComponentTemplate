@@ -34,17 +34,17 @@ public:
     void ParseArguments(const int argc, char* const* argv){
         ParseOptions(argc, argv);
 
-        for(auto& i : m_configJsonPath){
+        for(auto& i : m_configJsonPath_vec){
             ParseJsonFile(i);
         }
     }
 
     std::vector<std::string> GetConfgJsonParh() const{
-        return m_configJsonPath;
+        return m_configJsonPath_vec;
     }
 
-    const std::map<std::string, json>& GetParsedJson() const{
-        return m_modulsArgs;
+    const std::vector<json>& GetConfigJson() const{
+        return m_configJson_vec;
     }
 
 private:
@@ -53,6 +53,12 @@ private:
     }
 
     void ParseOptions(const int argc, char* const* argv){
+        if(argc < 2){
+            spdlog::info("Please input your configure file");
+            Usage();
+            exit(0);
+        }
+
         opterr = 0;  // extern int opterr
         int optionsIndex = 0;
         const std::string shortOptions = "hc:";
@@ -76,10 +82,10 @@ private:
             switch (opt) {
             case 'c':
                 std::cout << std::string(optarg) << std::endl;
-                m_configJsonPath.push_back(std::string(optarg));
+                m_configJsonPath_vec.push_back(std::string(optarg));
                 for (int i = optind; i < argc; i++) {
                     if (*argv[i] != '-') {
-                        m_configJsonPath.push_back(std::string(argv[i]));
+                        m_configJsonPath_vec.push_back(std::string(argv[i]));
                     } 
                     else {
                         break;
@@ -100,21 +106,12 @@ private:
         std::ifstream readFile(filePath);
         json arg = json::parse(readFile);
 
-        for(auto& i : arg[JSONKEY_MODULES]){
-            const std::string moduleName = i[JSONKEY_MODULE_NAME].get<std::string>();
-            
-            if(m_modulsArgs.find(moduleName) != m_modulsArgs.end()){
-                spdlog::error("Same Module Name!");
-                exit(0);
-            }
-            
-            m_modulsArgs[moduleName] = i;
-        }
+        m_configJson_vec.emplace_back(arg);
     }
 
 private:
-    std::vector<std::string> m_configJsonPath;
-    std::map<std::string, json> m_modulsArgs;
+    std::vector<std::string> m_configJsonPath_vec;
+    std::vector<json> m_configJson_vec;
 };
 
 } // namespace util

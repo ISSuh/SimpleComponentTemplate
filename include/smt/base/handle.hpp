@@ -51,7 +51,7 @@ using namespace smt::util;
 
 class Handle{
 public:
-    
+
     /**
     * @brief Get handle for globally
     *
@@ -59,11 +59,11 @@ public:
     *
     * @return returns static Handle object
     */
-    static Handle* GetInstence(const std::map<std::string, json>& moduleArgs){
+    static Handle* GetInstence(){
         if(m_instance == nullptr) {
             std::lock_guard<std::mutex> lock(m_mutex);
             if(m_instance == nullptr) {
-                m_instance = new Handle(moduleArgs);
+                m_instance = new Handle();
             }
         }
 
@@ -77,16 +77,22 @@ public:
     *
     * @return void
     */
-    void Init() {
+    void Init(const std::vector<json>& configJson) {
+        // Set arguments, arguments map
+        {
+            m_configJson = std::move(configJson);
+            MakeArgumentsMap(m_configJson);
+
+            m_nodeName = m_configJson[0][JSONKEY_NODE_NAME].get<std::string>();
+            m_logLevel = m_configJson[0][JSONKEY_LOG_LEVEL].get<std::string>();
+        }
         // Set Logger
         {
-            m_nodeName = m_modulsArgs[JSONKEY_NODE_NAME].get<std::string>();
-
             m_logger.AddLogger(m_nodeName);
             m_log = spdlog::get(m_nodeName);
 
             for(auto& i : m_modulsArgs){
-                m_logger.AddLogger(i.second[JSONKEY_MODULE][JSONKEY_CLASS_NAME].get<std::string>());
+                m_logger.AddLogger(i.second[JSONKEY_MODULE_NAME].get<std::string>());
             }
         }
     };
@@ -122,7 +128,7 @@ public:
     *
     * @return returns json about user module's arguments
     */
-    const std::map<std::string, json>& GetAllArguments(){
+    const std::map<std::string, json>& GetArguments(){
         std::lock_guard<std::mutex> lock(m_mutex);
         return m_modulsArgs;
     }
@@ -163,13 +169,28 @@ public:
         return m_nodeName;
     }
 
+public:
     Handle(Handle const&) = delete;
     void operator=(Handle const&) = delete;
 
 protected :
-    Handle(const std::map<std::string, json>& moduleArgs) : m_modulsArgs(moduleArgs) {};
+    Handle() {}
 
-private:
+private :
+    void MakeArgumentsMap(const std::vector<json>& configJson){
+        for(auto& argJson : configJson){
+            for(auto& i : argJson[JSONKEY_MODULES]){
+                const std::string moduleName = i[JSONKEY_MODULE_NAME].get<std::string>();
+                
+                if(m_modulsArgs.find(moduleName) != m_modulsArgs.end()){
+                    spdlog::error("Same Module Name!");
+                    exit(0);
+                }
+                
+                m_modulsArgs[moduleName] = i;
+            }
+        }
+    }
 
 private:
     std::shared_ptr<spdlog::logger> m_log;
@@ -178,11 +199,14 @@ private:
     static std::atomic<Handle*> m_instance;
     static std::mutex m_mutex;
 
+    std::vector<json> m_configJson;
     std::map<std::string, json> m_modulsArgs;
 
     std::atomic<bool> m_isRunning = { false };
 
     std::string m_nodeName;
+    std::string m_logLevel;
+
 };
 
 std::atomic<Handle*> Handle::m_instance { nullptr };

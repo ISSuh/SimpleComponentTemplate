@@ -22,10 +22,10 @@ int main(int argc, char **argv){
     smt::util::ArgParser argPaser;
     argPaser.ParseArguments(argc, argv);
 
-    Handle *h = Handle::GetInstence(argPaser.GetParsedJson());
-    h->Init();
+    Handle *h = Handle::GetInstence();
+    h->Init(argPaser.GetConfigJson());
 
-    smt::controller::ModuleController controller(*h);
+    smt::controller::ModuleController controller;
     controller.Init();
 
     h->WaitForModule(100);

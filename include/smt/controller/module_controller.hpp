@@ -36,9 +36,7 @@ using json = nlohmann::json;
  **/
 class ModuleController {
 public:
-    explicit ModuleController(smt::base::Handle &handle) : m_handle(handle) {
-        m_log = spdlog::get(m_handle.GetNodeName());
-    }
+    explicit ModuleController() : m_handle(smt::base::Handle::GetInstence()), m_log(spdlog::get(m_handle->GetNodeName())) {}
     
     bool Init() {
         if(!LoadAllModule()){
@@ -53,10 +51,10 @@ public:
 
 private:
     bool LoadAllModule() {
-        auto arg = m_handle.GetAllArguments();
+        auto arg = m_handle->GetArguments();
 
         for(const auto& i : arg){
-            if(!LoadMoule(m_handle.GetArguments_map(i.first))){
+            if(!LoadMoule(m_handle->GetArguments_map(i.first))){
                 return false;
             }
         }
@@ -71,8 +69,8 @@ private:
     }
 
 private:
+    smt::base::Handle *m_handle;
     std::shared_ptr<spdlog::logger> m_log;
-    smt::base::Handle &m_handle;
 
     smt::loader::ModuleLoadManager m_loadManager;
     std::vector<std::shared_ptr<smt::module::ModuleBase>> m_moduleLists;

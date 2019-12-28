@@ -51,21 +51,28 @@ public:
 
 private:
     bool LoadAllModule() {
-        auto arg = m_handle->GetArguments();
+        auto args = m_handle->GetArguments();
 
-        for(const auto& i : arg){
-            if(!LoadMoule(m_handle->GetArguments_map(i.first))){
+        for(const auto& moduleIndex : args){
+            if(!LoadMoule(m_handle->GetArguments_map(moduleIndex.first))){
+                m_log->error("Fail Load {} Module", moduleIndex.first);
                 return false;
             }
         }
-
         return true;
     }
 
     bool LoadMoule(const json& arg) {
-        m_loadManager.LoadModule();
+        auto moduleName = arg[JSONKEY_MODULE_NAME].get<std::string>();
+        auto className = arg[JSONKEY_MODULE][JSONKEY_CLASS_NAME].get<std::string>();
 
-        return false;
+        m_loadManager.LoadModule(moduleName);
+
+        std::shared_ptr<ModuleBase> base = m_loadManager.CreateClassObj<ModuleBase>(moduleName, className);
+
+        component_list_.emplace_back(std::move(base));
+    
+        return true;
     }
 
 private:

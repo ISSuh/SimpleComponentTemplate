@@ -19,6 +19,7 @@
 
 #include <vector>
 #include <memory>
+#include <mutex>
 
 namespace smt {
 
@@ -37,14 +38,30 @@ namespace loader {
  **/
 class ModuleLoader {
 public:
+    explicit ModuleLoader() : m_handle(smt::base::Handle::GetInstence()), m_log(spdlog::get(m_handle->GetNodeName())) {}
+
     void LoadModule() {}
     
     template <typename ModuleClass>
-    std::shared_ptr<ModuleClass> CreateClassObj() {}
+    std::shared_ptr<ModuleClass> CreateClassObj(const std::string& className) {
+        Base* moduleObject;
+        if (class_object == nullptr) {
+            m_log->error("CreateClassObj failed {}", className);
+            return std::shared_ptr<Base>();
+        }
+
+        std::lock_guard<std::mutex> lock(classobj_ref_count_mutex_);
+        ++m_loadedModule_count;
+    }
 
     void UnLoadModule() {}
 
 private:
+    smt::base::Handle* m_handle;
+    std::shared_ptr<spdlog::logger> m_log;
+
+    std::mutex m_loadedModule_count_mutex;
+
     int m_loadedModule_count = 0;
 };
 

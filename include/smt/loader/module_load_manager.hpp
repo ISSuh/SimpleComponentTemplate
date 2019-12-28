@@ -37,17 +37,19 @@ class ModuleLoadManager {
 public:
     explicit ModuleLoadManager() : m_handle(smt::base::Handle::GetInstence()), m_log(spdlog::get(m_handle->GetNodeName())) {}
 
-    void LoadModule() {}
+    void LoadModule(const std::string& moduleName) {
+        m_loader_map[moduleName] = new smt::loader::ModuleLoader();
+    }
     
     template <typename ModuleClass>
-    std::shared_ptr<ModuleClass> CreateClassObj(const std::string& className, const std::string& moduleName ) {
+    std::shared_ptr<ModuleClass> CreateClassObj(const std::string& moduleName, const std::string& className) {
         ModuleLoader* loader = GetModuleLoader(moduleName);
-        if(loader){
-            return loader->CreateClassObj<ModuleClass>(className);
+        if(!loader){
+            m_log->error("Could not create user class obj {}", className);
+            return std::shared_ptr<ModuleClass>();
         }
 
-        m_log->error("Could not create user class obj {}", className);
-        return std::shared_ptr<ModuleClass>();
+        return loader->CreateClassObj<ModuleClass>(className);
     }
 
     void UnLoadModule() {}

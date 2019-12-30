@@ -14,8 +14,8 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SMT_CONTROLLER_MODUL_LOAD_MANAGER
-#define SMT_CONTROLLER_MODUL_LOAD_MANAGER
+#ifndef SMT_LOADER_MODUL_LOAD_MANAGER
+#define SMT_LOADER_MODUL_LOAD_MANAGER
 
 #include <map>
 #include <memory>
@@ -41,15 +41,15 @@ public:
         m_loader_map[moduleName] = new smt::loader::ModuleLoader();
     }
     
-    template <typename ModuleClass>
-    std::shared_ptr<ModuleClass> CreateClassObj(const std::string& moduleName, const std::string& className) {
+    template <typename Base>
+    std::shared_ptr<Base> CreateClassObj(const std::string& moduleName, const std::string& className) {
         ModuleLoader* loader = GetModuleLoader(moduleName);
         if(!loader){
             m_log->error("Could not create user class obj {}", className);
-            return std::shared_ptr<ModuleClass>();
+            return std::shared_ptr<Base>();
         }
 
-        return loader->CreateClassObj<ModuleClass>(className);
+        return loader->CreateClassObj<Base>(className);
     }
 
     void UnLoadModule() {}

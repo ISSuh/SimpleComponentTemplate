@@ -22,12 +22,15 @@
 
 #include <smt/module/module_base.hpp>
 #include <smt/loader/module_load_manager.hpp>
+#include <smt/util/json_key.hpp>
 
 namespace smt {
 
 namespace controller {
 
 using json = nlohmann::json;
+using namespace smt::util;
+using namespace smt::module;
 
 // TODO : Implement ModuleController Class
 /**
@@ -70,7 +73,7 @@ private:
 
         std::shared_ptr<ModuleBase> base = m_loadManager.CreateClassObj<ModuleBase>(moduleName, className);
 
-        component_list_.emplace_back(std::move(base));
+        m_moduleLists.emplace_back(std::move(base));
     
         return true;
     }

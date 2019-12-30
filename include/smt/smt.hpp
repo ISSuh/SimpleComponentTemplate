@@ -21,5 +21,6 @@
 #include <smt/controller/module_controller.hpp>
 #include <smt/util/args_parser.hpp>
 #include <smt/util/logger.hpp>
+#include <smt/loader/module_loader_regist_macro.hpp>
 
 #endif

@@ -5,10 +5,10 @@ class SampleModule : public smt::module::Module{
 public:
     bool Init() override {
         str = "Hello World!";
-        GetParam("int_test", m_int_test);
-        GetParam("float_test", m_float_test);
-        GetParam("bool_test", m_bool_test);
-        GetParam("string_test", m_string_test);
+        // GetParam("int_test", m_int_test);
+        // GetParam("float_test", m_float_test);
+        // GetParam("bool_test", m_bool_test);
+        // GetParam("string_test", m_string_test);
 
         return true;
     }
@@ -30,4 +30,7 @@ private:
     bool m_bool_test;
     std::string m_string_test;    
 };
+
+smt::loader::CLASS_LOADER_REGISTER_CLASS(SampleModule, smt::module::Module);
+
 

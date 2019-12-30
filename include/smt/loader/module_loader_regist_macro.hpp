@@ -14,8 +14,8 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SMT_CONTROLLER_MODUL_LOADER_REGIST_MACRO    
-#define SMT_CONTROLLER_MODUL_LOADER_REGIST_MACRO    
+#ifndef SMT_LOADER_MODUL_LOADER_REGIST_MACRO    
+#define SMT_LOADER_MODUL_LOADER_REGIST_MACRO    
 
 #include <smt/loader/module_loader_util.hpp>
 
@@ -23,23 +23,20 @@ namespace smt {
 
 namespace loader {
 
-#define CLASS_LOADER_REGISTER_CLASS_INTERNAL(Derived, Base, UniqueID)     \
+#define CLASS_LOADER_REGISTER_CLASS_INTERNAL(ModuleClass, ModuleBase, UniqueID)     \
   namespace {                                                             \
   struct ProxyType##UniqueID {                                            \
     ProxyType##UniqueID() {                                               \
-        smt::loader::RegistClass<Derived, Base>( \
-          #Derived, #Base);                                               \
+        smt::loader::RegistClass<ModuleClass, ModuleBase>(                \
+          #ModuleClass, #ModuleBase);                                               \
     }                                                                     \
   };                                                                      \
   static ProxyType##UniqueID g_register_class_##UniqueID;                 \
   }
 
-#define CLASS_LOADER_REGISTER_CLASS_INTERNAL_1(Derived, Base, UniqueID) \
-  CLASS_LOADER_REGISTER_CLASS_INTERNAL(Derived, Base, UniqueID)
-
 // register class macro
-#define CLASS_LOADER_REGISTER_CLASS(Derived, Base) \
-  CLASS_LOADER_REGISTER_CLASS_INTERNAL_1(Derived, Base, __COUNTER__)
+#define CLASS_LOADER_REGISTER_CLASS(ModuleClass, ModuleBase) \
+  CLASS_LOADER_REGISTER_CLASS_INTERNAL(ModuleClass, ModuleBase, __COUNTER__)
 
 } // namespace loader
 

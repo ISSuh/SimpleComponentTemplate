@@ -21,7 +21,8 @@
 #include <getopt.h>
 #include <vector>
 
-#include <3thParty/spdlog/spdlog.h>
+#include <nlohmann/json.hpp>
+#include <spdlog/spdlog.h>
 
 namespace smt {
 

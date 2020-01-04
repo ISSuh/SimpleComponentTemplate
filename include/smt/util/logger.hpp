@@ -21,8 +21,8 @@
 #include <memory>
 #include <map>
 
-#include <3thParty/spdlog/spdlog.h>
-#include <3thParty/spdlog/sinks/stdout_color_sinks.h>
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
 
 namespace smt{
 

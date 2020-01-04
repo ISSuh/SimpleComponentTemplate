@@ -28,13 +28,17 @@ SET ( CMAKE_EXE_LINKER_FLAGS_RELEASE "-DRELEASE -DLINKER_FLAGS" )
 #-------------------------------------------------------------------------------
 # third party Module
 #-------------------------------------------------------------------------------
-
+set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(third_party/json
-				json
+				third_party/json
 )
 
 add_subdirectory(third_party/spdlog
-				spdlog
+				third_party/spdlog
+)
+
+link_directories( 
+	build/third_party/spdlog
 )
 
 #-------------------------------------------------------------------------------
@@ -45,11 +49,7 @@ add_subdirectory(example
 )
 
 link_directories( 
-	build/example/hello_world 
-)
-
-SET( USER_MODULE
-	libhello_world.so
+	build/example/hello_world
 )
 
 #-------------------------------------------------------------------------------
@@ -57,7 +57,12 @@ SET( USER_MODULE
 #-------------------------------------------------------------------------------
 include_directories(
 	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/include/3thParty
+	${PROJECT_SOURCE_DIR}/third_party/json/include
+	${PROJECT_SOURCE_DIR}/third_party/spdlog/include
+
+	${PROJECT_SOURCE_DIR}/third_party/boost/asio/include
+	${PROJECT_SOURCE_DIR}/third_party/boost/dll/include
+	${PROJECT_SOURCE_DIR}/third_party/boost/thread/include
 )
 
 file(GLOB SOURCE SOURCE
@@ -68,8 +73,11 @@ file(GLOB SOURCE SOURCE
 #  node build
 #-------------------------------------------------------------------------------
 add_executable(smtNode ${SOURCE})
+
 target_link_libraries(smtNode
-	${USER_MODULE}
+PRIVATE
+	nlohmann_json::nlohmann_json
+	spdlog
 )
 
 set_property(TARGET smtNode PROPERTY FOLDER "build")

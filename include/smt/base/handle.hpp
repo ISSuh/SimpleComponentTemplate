@@ -28,8 +28,8 @@
 #include <smt/util/logger.hpp>
 #include <smt/util/json_key.hpp>
 
-#include <3thParty/json/json.hpp>
-#include <3thParty/spdlog/spdlog.h>
+#include <nlohmann/json.hpp>
+#include <spdlog/spdlog.h>
 
 namespace smt {
 

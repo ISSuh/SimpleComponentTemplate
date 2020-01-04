@@ -21,8 +21,6 @@
 #include <memory>
 #include <atomic>
 
-#include <smt/loader/module_loader.hpp>
-
 namespace smt {
 
 namespace module {

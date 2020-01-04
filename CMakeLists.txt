@@ -26,6 +26,18 @@ SET ( CMAKE_C_FLAGS_RELEASE "-DRELEASE -DC_FLAGS" )
 SET ( CMAKE_EXE_LINKER_FLAGS_RELEASE "-DRELEASE -DLINKER_FLAGS" )
 
 #-------------------------------------------------------------------------------
+# third party Module
+#-------------------------------------------------------------------------------
+
+add_subdirectory(third_party/json
+				json
+)
+
+add_subdirectory(third_party/spdlog
+				spdlog
+)
+
+#-------------------------------------------------------------------------------
 # Uer Module
 #-------------------------------------------------------------------------------
 add_subdirectory(example

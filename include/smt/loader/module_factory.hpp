@@ -29,8 +29,8 @@ namespace loader{
 
 class AbstractModuleFactoryBase{
 public:
-    AbstractModuleFactoryBase(const std::string &className,
-                             const std::string &baseClassName)
+    AbstractModuleFactoryBase(const std::string& className,
+                             const std::string& baseClassName)
         : m_baseClassName(baseClassName), m_className(className) {}
 
     virtual ~AbstractModuleFactoryBase();
@@ -51,8 +51,8 @@ protected:
 template <typename Base>
 class AbstractModlueFactory : public AbstractModuleFactoryBase{
 public:
-    AbstractModlueFactory(const std::string &className,
-                          const std::string &baseClassName)
+    AbstractModlueFactory(const std::string& className,
+                          const std::string& baseClassName)
         : AbstractModuleFactoryBase(className, baseClassName) {}
 
     virtual Base *CreateObj() const = 0;
@@ -66,8 +66,8 @@ private:
 template <typename ModuleObject, typename Base>
 class ModuleFactory : AbstractModlueFactory<Base>{
 public:
-    ModuleFactory(const std::string &className,
-                  const std::string &baseClassName)
+    ModuleFactory(const std::string& className,
+                  const std::string& baseClassName)
         : AbstractModlueFactory<Base>(className, baseClassName) {}
 
     Base *CreateObj() const { 

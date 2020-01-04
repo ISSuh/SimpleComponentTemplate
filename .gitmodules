@@ -1,0 +1,13 @@
+[submodule "third_party/spdlog"]
+	path = third_party/spdlog
+	url = https://github.com/gabime/spdlog.git
+	tag = v1.4.2
+[submodule "third_party/json"]
+	path = third_party/json
+	url = https://github.com/nlohmann/json.git
+	tag = v3.7.3
+[submodule "third_party/boost"]
+	path = third_party/boost
+	url = https://github.com/boostorg/boost.git
+	tag = boost-1.68.0
+

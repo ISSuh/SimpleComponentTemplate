@@ -45,7 +45,7 @@ public:
     std::shared_ptr<Base> CreateClassObj(const std::string& moduleName, const std::string& className) {
         ModuleLoader* loader = GetModuleLoader(moduleName);
         if(!loader){
-            m_log->error("Could not create user class obj {}", className);
+            m_log->error("ModuleLoadManager::Could not create user class obj {}", className);
             return std::shared_ptr<Base>();
         }
 

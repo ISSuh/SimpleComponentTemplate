@@ -17,6 +17,7 @@
 #ifndef SMT_LOADER_MODUL_LOADER_UTIL   
 #define SMT_LOADER_MODUL_LOADER_UTIL
 
+#include <iostream>
 #include <vector>
 #include <map>
 #include <mutex>
@@ -62,6 +63,8 @@ template<typename ModuleClass, typename Base>
 void RegistClass(const std::string& className, const std::string& baseCalssName){
     AbstractModlueFactory<Base>* moduleFactrory_obj =
       new ModuleFactory<ModuleClass, Base>(className, baseCalssName);
+
+    std::cout << "RegistClass" << std::endl;
 
     // GetModuleFactorMapMutex.lock();
     auto& factoryMap = GetUserModulFactoryMap();

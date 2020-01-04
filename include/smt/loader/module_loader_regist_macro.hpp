@@ -27,7 +27,7 @@ namespace loader {
   namespace {                                                             \
   struct ProxyType##UniqueID {                                            \
     ProxyType##UniqueID() {                                               \
-        smt::loader::RegistClass<ModuleClass, ModuleBase>(                \
+        smt::loader::util::RegistClass<ModuleClass, ModuleBase>(                \
           #ModuleClass, #ModuleBase);                                               \
     }                                                                     \
   };                                                                      \

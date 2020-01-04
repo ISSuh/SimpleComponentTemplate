@@ -51,7 +51,7 @@ public:
     std::shared_ptr<Base> CreateClassObj(const std::string& className) {
         Base* moduleObject = util::CreateUserClassObj<Base>(className);
         if (moduleObject == nullptr) {
-            m_log->error("CreateClassObj failed {}", className);
+            m_log->error("ModuleLoader::CreateClassObj failed {}", className);
             return std::shared_ptr<Base>();
         }
 
@@ -67,7 +67,15 @@ public:
 
 private:
     template<typename Base>
-    void OnModuleObjDeleter(Base *obj) {}
+    void OnModuleObjDeleter(Base *obj) {
+        if(obj == nullptr){
+            return;
+        }
+        
+        std::lock_guard<std::mutex> lock(m_loadedModule_count_mutex);
+        delete obj;
+        --m_loadedModule_count;
+    }
 
 private:
     smt::base::Handle* m_handle;

@@ -1,27 +1,12 @@
-#include <iostream>
 #include <smt/smt.hpp>
 
 class SampleModule : public smt::module::Module{
 public:
-    bool Init() override {
-        str = "Hello World!";
-        // GetParam("int_test", m_int_test);
-        // GetParam("float_test", m_float_test);
-        // GetParam("bool_test", m_bool_test);
-        // GetParam("string_test", m_string_test);
+    bool Init() override;
 
-        return true;
-    }
+    bool Run() override;
 
-    bool Run() override {
-        std::cout << str << '\n';
-
-        return true;
-    }
-
-    bool Clear() override {
-        return true;
-    }
+    bool Clear() override;
 
 private:
     std::string str;
@@ -31,6 +16,6 @@ private:
     std::string m_string_test;    
 };
 
-smt::loader::CLASS_LOADER_REGISTER_CLASS(SampleModule, smt::module::Module);
+REGISTER_MODULE(SampleModule);
 
 

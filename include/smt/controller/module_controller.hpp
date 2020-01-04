@@ -58,7 +58,7 @@ private:
 
         for(const auto& moduleIndex : args){
             if(!LoadMoule(m_handle->GetArguments_map(moduleIndex.first))){
-                m_log->error("Fail Load {} Module", moduleIndex.first);
+                m_log->error("ModuleController::Fail Load {} Module", moduleIndex.first);
                 return false;
             }
         }

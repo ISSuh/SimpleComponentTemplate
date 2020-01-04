@@ -1,11 +1,9 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.2)
 PROJECT (SMT)
 
-SET ( CMAKE_CXX_COMPILER g++)
 SET ( CMAKE_CXX_STANDARD 11)
+SET ( CMAKE_CXX_STANDARD_REQUIRED ON)
 ADD_COMPILE_OPTIONS ( -g -Wall )
-
-SET ( CMAKE_PREFIX_PATH /usr/lib/x86_64-linux-gnu/cmake)
 
 if(${CMAKE_HOST_UNIX})
 	if(${CMAKE_HOST_APPLE})
@@ -30,8 +28,16 @@ SET ( CMAKE_EXE_LINKER_FLAGS_RELEASE "-DRELEASE -DLINKER_FLAGS" )
 #-------------------------------------------------------------------------------
 # Uer Module
 #-------------------------------------------------------------------------------
-add_subdirectory(example/hello_world
-				hello_world
+add_subdirectory(example
+				example
+)
+
+link_directories( 
+	build/example/hello_world 
+)
+
+SET( USER_MODULE
+	libhello_world.so
 )
 
 #-------------------------------------------------------------------------------
@@ -42,16 +48,16 @@ include_directories(
 	${PROJECT_SOURCE_DIR}/include/3thParty
 )
 
-SET(smtNode_SOURCE
+file(GLOB SOURCE SOURCE
 	${PROJECT_SOURCE_DIR}/src/node.cpp
 )
 
 #-------------------------------------------------------------------------------
 #  node build
 #-------------------------------------------------------------------------------
-add_executable(smtNode ${smtNode_SOURCE})
+add_executable(smtNode ${SOURCE})
 target_link_libraries(smtNode
-	
+	${USER_MODULE}
 )
 
 set_property(TARGET smtNode PROPERTY FOLDER "build")

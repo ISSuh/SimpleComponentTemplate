@@ -86,6 +86,9 @@ protected:
 private:
 };
 
+#define REGISTER_MODULE(name) \
+  CLASS_LOADER_REGISTER_CLASS(name, smt::module::ModuleBase)
+
 } // namspace module
 
 } // namspace smt

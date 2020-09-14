@@ -45,7 +45,7 @@ link_directories(
 # Uer Module
 #-------------------------------------------------------------------------------
 add_subdirectory(example
-				example
+	example
 )
 
 link_directories( 

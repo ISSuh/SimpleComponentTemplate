@@ -18,7 +18,7 @@
 
 using Handle = smt::base::Handle;
 
-int main(int argc, char **argv){
+int main(int argc, char **argv) {
     smt::util::ArgParser argPaser;
     argPaser.ParseArguments(argc, argv);
 
@@ -29,7 +29,7 @@ int main(int argc, char **argv){
     controller.Init();
 
     h->WaitForModule(100);
-    
+
     controller.Clear();
 
     h->Shutdown();

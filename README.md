@@ -1,6 +1,6 @@
-# SimpleComponentTemplate
+# SimpleModule
 
-SimpleModuleTemplate(SMT) is template for module based programming(C++ 11).
+SimpleModule(SM) is framework and launcher for module based programming(C++ 11).
 
 ## Overview
 
@@ -10,5 +10,5 @@ SimpleModuleTemplate(SMT) is template for module based programming(C++ 11).
 
 ## 3th Party library
 
-- [spdlogger](https://github.com/gabime/spdlog)  v1.4.2
+- [spdlogger](https://github.com/gabime/spdlog)  v1.8.0
 - [nlohmann/json](https://nlohmann.github.io/json/) v3.7.3

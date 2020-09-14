@@ -14,8 +14,8 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SMT_LOADER_MODUL_LOADER_UTIL   
-#define SMT_LOADER_MODUL_LOADER_UTIL
+#ifndef SMT_LOADER_MODULELOADERUTIL_HPP_   
+#define SMT_LOADER_MODULELOADERUTIL_HPP_
 
 #include <iostream>
 #include <vector>
@@ -91,10 +91,8 @@ Base* CreateUserClassObj(const std::string& className) {
     return classObj;
 }
 
-} // namespace util
+}  // namespace util
+}  // namespace loader
+}  // namespace smt
 
-} // namespace loader
-
-} // namespace smt
-
-#endif
+#endif  // SMT_LOADER_MODULELOADERUTIL_HPP_

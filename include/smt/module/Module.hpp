@@ -1,18 +1,7 @@
-/******************************************************************************
- * Copyright 2019 The ISSuh Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *****************************************************************************/
+/**
+ * Copyright 2020 The ISSuh Authors. All Rights Reserved.
+ * Distributed under the MIT License (http://opensource.org/licenses/MIT)
+ */
 
 #ifndef SMT_MODULE_MODULE_HPP_
 #define SMT_MODULE_MODULE_HPP_
@@ -20,10 +9,9 @@
 #include <iostream>
 #include <memory>
 
-#include <smt/module/module_base.hpp>
+#include "smt/module/ModuleBase.hpp"
 
 namespace smt {
-
 namespace module {
 
 class Module : public smt::module::ModuleBase{
@@ -32,7 +20,7 @@ class Module : public smt::module::ModuleBase{
   virtual ~Module() = default;
 
   bool Initialize() override {
-    if (!Init()) {
+    if (!init()) {
       return false;
     }
 
@@ -40,7 +28,7 @@ class Module : public smt::module::ModuleBase{
   }
 
   bool Process() override {
-    if (!Run()) {
+    if (!run()) {
       return false;
     }
 

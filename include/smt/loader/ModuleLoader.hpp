@@ -14,20 +14,17 @@
 #include <functional>
 
 #include "smt/module/ModuleBase.hpp"
-#include "smt/loader/ModuleLoader_util.hpp"
+#include "smt/loader/ModuleLoaderUtil.hpp"
 
 namespace smt {
 namespace loader {
 
-// TODO(issuh) : Implement ComponentController Class
+// TODO(issuh) : Implement ModuleLoader Class
 /**
- *  ComponentController Class
+ *  ModuleLoader Class
  *  
- *  Init user components class
- *  Load all user components class
- *  Add user components class
- *  Clear user components class 
- *  scheduling user components class 
+ *  Load user module class
+ *  Interface for communicate user module
  * 
  **/
 class ModuleLoader {

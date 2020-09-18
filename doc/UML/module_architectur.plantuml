@@ -1,0 +1,28 @@
+@startuml Module Hierarchy v0.0.1
+' left to right direction
+
+node "Module" as module
+
+node "User Module" as uModule {
+  node "User Module 1" as uModule1
+  node "User Module 2" as uModule2
+  node "User Module 3" as uModule3
+}
+
+node "ModuleLoader" as moduleLoader
+node "ModuleController" as moduleController
+
+moduleController -[hidden]- moduleLoader
+moduleLoader -[hidden]- uModule
+uModule -[hidden]- module
+
+
+uModule1 -> module
+uModule2 -> module
+uModule3 -> module
+
+moduleLoader -> uModule1
+moduleLoader -> uModule2
+moduleLoader -> uModule3
+
+@enduml

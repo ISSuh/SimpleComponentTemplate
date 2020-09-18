@@ -1,21 +1,12 @@
-/******************************************************************************
- * Copyright 2019 The ISSuh Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *****************************************************************************/
+/**
+ * Copyright 2020 The ISSuh Authors. All Rights Reserved.
+ * Distributed under the MIT License (http://opensource.org/licenses/MIT)
+ */
 
 #ifndef SMT_LOADER_MODULEFACTORY_HPP_
 #define SMT_LOADER_MODULEFACTORY_HPP_
+
+#include <dlfcn.h>
 
 #include <string>
 #include <map>
@@ -27,18 +18,18 @@
 namespace smt {
 namespace loader {
 
-class AbstractModuleFactoryBase{
+class AbstractModuleFactoryBase {
  public:
   AbstractModuleFactoryBase(const std::string& className, const std::string& baseClassName)
       : m_baseClassName(baseClassName), m_className(className) {}
 
   virtual ~AbstractModuleFactoryBase() = default;
 
-  const std::string GetBaseClassName() const {
+  const std::string getBaseClassName() const {
     return m_baseClassName;
   }
 
-  const std::string GetClassName() const {
+  const std::string getClassName() const {
     return m_className;
   }
 
@@ -48,7 +39,7 @@ class AbstractModuleFactoryBase{
 };
 
 template <typename Base>
-class AbstractModlueFactory : public AbstractModuleFactoryBase{
+class AbstractModlueFactory : public AbstractModuleFactoryBase {
 public:
   AbstractModlueFactory(const std::string& className, const std::string& baseClassName)
       : AbstractModuleFactoryBase(className, baseClassName) {}
@@ -62,7 +53,7 @@ public:
 };
 
 template <typename ModuleObject, typename Base>
-class ModuleFactory : AbstractModlueFactory<Base>{
+class ModuleFactory : AbstractModlueFactory<Base> {
  public:
   ModuleFactory(const std::string& className, const std::string& baseClassName)
       : AbstractModlueFactory<Base>(className, baseClassName) {}

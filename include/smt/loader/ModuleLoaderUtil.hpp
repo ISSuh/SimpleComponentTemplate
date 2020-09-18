@@ -23,9 +23,9 @@
 #include <mutex>
 #include <memory>
 
-#include <smt/module/module_base.hpp>
-#include <smt/loader/module_loader.hpp>
-#include <smt/loader/module_factory.hpp>
+#include "smt/module/ModuleBase.hpp"
+#include "smt/loader/ModuleLoader.hpp"
+#include "smt/loader/ModuleFactory.hpp"
 
 namespace smt {
 

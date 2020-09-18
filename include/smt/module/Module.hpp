@@ -14,32 +14,23 @@
 namespace smt {
 namespace module {
 
-class Module : public smt::module::ModuleBase{
+class Module : public smt::module::ModuleBase {
  public:
   Module() = default;
   virtual ~Module() = default;
 
-  bool Initialize() override {
-    if (!init()) {
-      return false;
-    }
-
+  bool initialize() override {
+    init();
     return true;
   }
 
-  bool Process() override {
-    if (!run()) {
-      return false;
-    }
-
+  bool process() override {
+    run();
     return true;
   }
 
-  bool Shutdown() override {
-    if (!terminate()) {
-      return false;
-    }
-
+  bool shutdown() override {
+    terminate();
     return true;
   }
 
@@ -51,7 +42,7 @@ class Module : public smt::module::ModuleBase{
   *
   * @return returns true if successful, otherwise returns false
   */
-  virtual bool init() = 0;
+  virtual void init() = 0;
 
   /**
   * @brief run the user fuction. write your own code.
@@ -60,7 +51,7 @@ class Module : public smt::module::ModuleBase{
   *
   * @return returns true if successful, otherwise returns false
   */
-  virtual bool run() = 0;
+  virtual void run() = 0;
 
   /**
   * @brief clear the user fuction. write your own code.
@@ -69,12 +60,12 @@ class Module : public smt::module::ModuleBase{
   *
   * @return returns true if successful, otherwise returns false
   */
-  virtual bool terminate() = 0;
+  virtual void terminate() = 0;
 
  private:
 };
 
-#define REGISTER_MODULE(name) \
+#define REGIST_MODULE(name) \
 CLASS_LOADER_REGISTER_CLASS(name, smt::module::ModuleBase)
 
 }  // namespace module

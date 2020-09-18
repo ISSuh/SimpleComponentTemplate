@@ -13,7 +13,7 @@
 namespace smt {
 namespace module {
 
-class ModuleBase : public std::enable_shared_from_this<ModuleBase>{
+class ModuleBase : public std::enable_shared_from_this<ModuleBase> {
  public:
   ModuleBase() = default;
   virtual ~ModuleBase() = default;

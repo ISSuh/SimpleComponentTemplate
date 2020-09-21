@@ -8,14 +8,15 @@
             "module_path" : "/Users/inseocksuh/projects/SimpleComponentTemplate/example/hello_world/libhello_world.so",
             "module" : {
                 "class_name" : "SampleModule",
+                "args" : {
+                    "int_test" : 1,
+                    "float_test" : 1.1,
+                    "bool_test" : true,
+                    "string_test" : "Hello World!",
+                    "array_test" : [1, 2, 3, 4, 5]
+                },
                 "configure" : {
-                    "threading" : false,
-                    "args" : {
-                        "int_test" : 1,
-                        "float_test" : 1.1,
-                        "bool_test" : true,
-                        "string_test" : "Hello World!"
-                    }
+                    "threading" : false
                 }
             }
         },
@@ -24,14 +25,15 @@
             "module_path" : "/Users/inseocksuh/projects/SimpleComponentTemplate/example/hello_world/libhello_world.so",
             "module" : {
                 "class_name" : "SampleModule",
+                "args" : {
+                    "int_test" : 1,
+                    "float_test" : 1.1,
+                    "bool_test" : true,
+                    "string_test" : "Hello World!",
+                    "array_test" : [1, 2, 3, 4, 5]
+                },
                 "configure" : {
-                    "threading" : false,
-                    "args" : {
-                        "int_test" : 1,
-                        "float_test" : 1.1,
-                        "bool_test" : true,
-                        "string_test" : "Hello World!"
-                    }
+                    "threading" : false
                 }
             }
         }

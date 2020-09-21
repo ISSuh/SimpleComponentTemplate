@@ -6,14 +6,18 @@
 #ifndef SMT_LOADER_MODULELOADER_HPP_
 #define SMT_LOADER_MODULELOADER_HPP_
 
+#include <dlfcn.h>
+
 #include <string>
 #include <vector>
+#include <map>
 #include <algorithm>
 #include <memory>
 #include <mutex>
 #include <functional>
 
 #include "smt/module/ModuleBase.hpp"
+#include "smt/module/ModuleInfo.hpp"
 #include "smt/loader/ModuleLoaderUtil.hpp"
 
 namespace smt {
@@ -31,9 +35,7 @@ class ModuleLoader {
  public:
   ModuleLoader() : m_handle(smt::base::Handle::GetInstence()),
                    m_log(spdlog::get(m_handle->GetNodeName())) {}
-
-  void LoadModule() {}
-
+  
   template <typename Base>
   std::shared_ptr<Base> CreateClassObj(const std::string& className) {
     Base* moduleObject = util::CreateUserClassObj<Base>(className);
@@ -69,9 +71,8 @@ class ModuleLoader {
   smt::base::Handle* m_handle;
   std::shared_ptr<spdlog::logger> m_log;
 
-  std::mutex m_loadedModule_count_mutex;
-
-  int m_loadedModule_count = 0;
+  std::vector<smt::module::Module> m_modules;
+  std::map<std::string, smt::module::ModuleInfo> m_moduleInfoMap;
 };
 
 }  // namespace loader

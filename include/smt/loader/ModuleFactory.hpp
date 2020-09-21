@@ -13,6 +13,7 @@
 #include <memory>
 
 #include "smt/base/handle.hpp"
+#include "smt/module/Module.hpp"
 #include "smt/loader/ModuleLoader.hpp"
 
 namespace smt {
@@ -61,6 +62,10 @@ class ModuleFactory : AbstractModlueFactory<Base> {
   Base *CreateObj() const {
     return new ModuleObject;
   }
+
+ private:
+  smt::module::CreateModule m_createHanle;
+  smt::module::DestroyModuleHandler m_destroyHandle;
 };
 
 }  // namespace loader

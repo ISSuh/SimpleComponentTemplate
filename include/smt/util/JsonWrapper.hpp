@@ -14,11 +14,16 @@
  * limitations under the License.
  *****************************************************************************/
 
-#ifndef SMT_UTIL_JSON_KEY_HPP_
-#define SMT_UTIL_JSON_KEY_HPP_
+#ifndef SMT_UTIL_JSONWRAPPER_HPP_
+#define SMT_UTIL_JSONWRAPPER_HPP_
+
+#include <string>
+#include <smt/util/thirdParty/json/json.hpp>
 
 namespace smt {
 namespace util {
+
+using json = nlohmann::json;
 
 const std::string JSONKEY_NODE_NAME   ("node_name");
 const std::string JSONKEY_LOG_LEVEL   ("log_level");
@@ -31,7 +36,23 @@ const std::string JSONKEY_CONFIGURE   ("configure");
 const std::string JSONKEY_THREADING   ("threading");
 const std::string JSONKEY_ARGS        ("args");
 
+class JsonWrapper {
+ public:
+  explicit JsonWrapper(const char* jsonStr) { m_jsonObj = jsonStr; }
+  explicit JsonWrapper(const std::string& jsonStr) { m_jsonObj = jsonStr.c_str(); }
+
+  virtual ~JsonWrapper() = default;
+
+  bool getBool(const std::string& key) const { return m_jsonObj[key]; }
+  int32_t getInt(const std::string& key) const { return m_jsonObj[key]; }
+  uint32_t getUint(const std::string& key) const  { return m_jsonObj[key]; }
+  const std::string getString(const std::string& key) const { return m_jsonObj[key]; }
+
+ private:
+  json m_jsonObj;
+};
+
 }  // namespace util
 }  // namespace smt
 
-#endif  // SMT_UTIL_JSON_KEY_HPP_
+#endif  // SMT_UTIL_JSONWRAPPER_HPP_

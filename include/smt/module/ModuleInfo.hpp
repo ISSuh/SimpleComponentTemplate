@@ -8,6 +8,8 @@
 
 #include <string>
 
+#include "smt/util/JsonWrapper.hpp"
+
 namespace smt {
 namespace module {
 
@@ -28,16 +30,27 @@ class BaseModuleInfo {
 class UserModuleInfo : public BaseModuleInfo {
  public:
   UserModuleInfo(const std::string& userModuleName, const std::string& userClassName)
-      : BaseModuleInfo("Module", "Module"),
-        m_userModuleName(userModuleName), m_userClassName(userClassName) {}
+      : BaseModuleInfo("Module", "Module") {}
   virtual ~UserModuleInfo() = default;
 
-  const std::string getUserModuleName() const { return m_baseModuleName; }
-  const std::string getUserClassName() const { return m_baseClassName; }
+  const std::string getUserModuleName() const { return m_userModuleName; }
+  const std::string getUserClassName() const { return m_userClassName; }
+  const std::string getModulePath() const {return m_modulePath; }
+  const smt::util::JsonWrapper getModuleArgs() const { return m_moduleArgs; }
+  const smt::util::JsonWrapper getModuleConfigure() const { return m_moduleConfigure; }
+
+  void setUserModuleName(const std::string& moduleName) { m_userModuleName = moduleName; }
+  void setUserClassName(const std::string& className) { m_userClassName = className; }
+  void setModulePath(const std::string& modulePath) { m_modulePath = modulePath; }
+  void setModuleArgs(const smt::util::JsonWrapper& args)  { m_moduleArgs = args; }
+  void setModuleConfigure(const smt::util::JsonWrapper config) { m_moduleConfigure = config; }
 
  protected:
-  const std::string m_userModuleName;
-  const std::string m_userClassName;
+  std::string m_userModuleName;
+  std::string m_userClassName;
+  std::string m_modulePath;
+  smt::util::JsonWrapper m_moduleArgs;
+  smt::util::JsonWrapper m_moduleConfigure;
 };
 
 }  // namespace module

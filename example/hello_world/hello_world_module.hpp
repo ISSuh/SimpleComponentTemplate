@@ -6,12 +6,12 @@ class SampleModule : public smt::module::Module {
   bool Run() override;
   bool Clear() override;
 
-private:
+ private:
   std::string str;
   int m_int_test;
   float m_float_test;
   bool m_bool_test;
-  std::string m_string_test;    
+  std::string m_string_test;
 };
 
 REGIST_MODULE(SampleModule);

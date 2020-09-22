@@ -65,35 +65,8 @@ class Module : public smt::module::ModuleBase {
  private:
 };
 
-typedef Module* CreateModuleHandler();
-typedef void DestroyModuleHandler(Module*);
-
-#define CREATE_MODULE(CLASS_NAME, BASE_MODULE)  \
-extern "C" BASE_MODULE* createModule() {        \
-  return new CLASS_NAME()                       \
-}
-
-#define DESTROY_MODULE(BASE_MODULE)                       \
-extern "C" void DESTROY_MODULE(BASE_MODULE* module) {     \
-  delete module;                                          \
-}
-
-#define REGIST_MODULE(name)                \
-CREATE_MODULE(name, smt::module::Module)   \
-DESTROY_MODULE(smt::module::Module)
-
-// #define REGIST_MODULE(name) \
-// CLASS_LOADER_REGISTER_CLASS(name, smt::module::Module)
-
-// #define CLASS_LOADER_REGISTER_CLASS(CLASS_NAME, BASE_MODULE) \
-// struct CLASS_NAMEProxy { \
-//   static BASE_MODULE* createModule() { \
-//       return new CLASS_NAME(); \
-//   } \
-//   static void destroyModule(BASE_MODULE* node) { \
-//     delete node; \
-//   } \
-// };
+#define REGIST_MODULE(name) \
+MODULE_LOADER_REGISTER(name, smt::module::Module)
 
 }  // namespace module
 }  // namespace smt

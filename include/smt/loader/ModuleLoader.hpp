@@ -35,10 +35,10 @@ class ModuleLoader {
  public:
   ModuleLoader() : m_handle(smt::base::Handle::GetInstence()),
                    m_log(spdlog::get(m_handle->GetNodeName())) {}
-  
+
   template <typename Base>
-  std::shared_ptr<Base> CreateClassObj(const std::string& className) {
-    Base* moduleObject = util::CreateUserClassObj<Base>(className);
+  std::shared_ptr<Base> createModule(const std::string& className) {
+    Base* moduleObject = util::createModule<Base>(className);
     if (moduleObject == nullptr) {
         m_log->error("ModuleLoader::CreateClassObj failed {}", className);
         return std::shared_ptr<Base>();

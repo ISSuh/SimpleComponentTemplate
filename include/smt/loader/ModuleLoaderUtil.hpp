@@ -19,6 +19,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 #include <map>
 #include <mutex>
 #include <memory>
@@ -28,65 +29,55 @@
 #include "smt/loader/ModuleFactory.hpp"
 
 namespace smt {
-
 namespace loader {
 
-class ModuleLoader;
-
-namespace util{
+namespace util {
 
 using UserModuleFactoryMap = std::map<std::string, smt::loader::AbstractModuleFactoryBase*>;
-using ModuleNamebyFactoryMap = std::map<std::string, smt::loader::AbstractModuleFactoryBase*>;
-using UserModuleClassMap = std::map<std::string, smt::module::ModuleBase*>;
 
-std::recursive_mutex& GetModuleFactorMapMutex() {
-  static std::recursive_mutex instance;
-  return instance;
-}
+// std::recursive_mutex& getModuleFactorMapMutex() {
+//   static std::recursive_mutex instance;
+//   return instance;
+// }
 
-std::recursive_mutex& GetModuleNamebyFactoryMapMutex() {
-  static std::recursive_mutex instance;
-  return instance;
-}
+// std::recursive_mutex& getModuleNamebyFactoryMapMutex() {
+//   static std::recursive_mutex instance;
+//   return instance;
+// }
 
-UserModuleFactoryMap& GetUserModulFactoryMap(){
+UserModuleFactoryMap& getUserModulFactoryMap() {
     static UserModuleFactoryMap instance;
     return instance;
 }
 
-UserModuleClassMap& GetUserModuleClassMap(){
-    static UserModuleClassMap instance;
-    return instance;
-}
-
-template<typename ModuleClass, typename Base>
-void RegistClass(const std::string& className, const std::string& baseCalssName){
-    AbstractModlueFactory<Base>* moduleFactrory_obj =
-      new ModuleFactory<ModuleClass, Base>(className, baseCalssName);
+template<typename Module, typename BaseModule>
+void registUserModule(const std::string& className, const std::string& baseCalssName) {
+    AbstractModlueFactory<BaseModule>* moduleFactrory =
+      new ModuleFactory<Module, BaseModule>(className, baseCalssName);
 
     std::cout << "RegistClass" << std::endl;
 
-    // GetModuleFactorMapMutex.lock();
-    auto& factoryMap = GetUserModulFactoryMap();
-    factoryMap[className] = moduleFactrory_obj;
-    // GetModuleFactorMapMutex.unlock();
+    // getModuleFactorMapMutex.lock();
+    auto& factoryMap = getUserModulFactoryMap();
+    factoryMap[className] = moduleFactrory;
+    // getModuleFactorMapMutex.unlock();
 }
 
 
-template <typename Base>
-Base* CreateUserClassObj(const std::string& className) {
-    auto& factoryMap = GetUserModulFactoryMap();
+template <typename BaseModule>
+std::shared_ptr<BaseModule> createModule(const std::string& className) {
+    auto& factoryMap = getUserModulFactoryMap();
 
-    AbstractModlueFactory<Base>* factory = nullptr;
+    AbstractModlueFactory<BaseModule>* factory = nullptr;
     if (factoryMap.find(className) != factoryMap.end()) {
         // factory = dynamic_cast<AbstractModlueFactory<Base>* >(factoryMap[className]);
-        factory = (AbstractModlueFactory<Base>*)(factoryMap[className]);
+        factory = (AbstractModlueFactory<BaseModule>*)(factoryMap[className]);
     }
 
-    Base* classObj = nullptr;
-    if(factory){
-        classObj = factory->CreateObj();
-    } 
+    std::shared_ptr<BaseModule> userModule;
+    if (factory) {
+        userModule = factory->createModule();
+    }
 
     return classObj;
 }

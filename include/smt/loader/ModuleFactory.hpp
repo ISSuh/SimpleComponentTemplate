@@ -9,7 +9,6 @@
 #include <dlfcn.h>
 
 #include <string>
-#include <map>
 #include <memory>
 
 #include "smt/base/handle.hpp"
@@ -35,17 +34,17 @@ class AbstractModuleFactoryBase {
   }
 
  protected:
-  std::string m_baseClassName;
-  std::string m_className;
+  const std::string m_baseClassName;
+  const std::string m_className;
 };
 
 template <typename Base>
 class AbstractModlueFactory : public AbstractModuleFactoryBase {
-public:
+ public:
   AbstractModlueFactory(const std::string& className, const std::string& baseClassName)
       : AbstractModuleFactoryBase(className, baseClassName) {}
 
-  virtual Base *CreateObj() const = 0;
+  virtual std::shared_ptr<BaseModule> createModule() const = 0;
 
  private:
   AbstractModlueFactory();
@@ -53,19 +52,15 @@ public:
   AbstractModlueFactory &operator=(const AbstractModlueFactory &);
 };
 
-template <typename ModuleObject, typename Base>
-class ModuleFactory : AbstractModlueFactory<Base> {
+template <typename Module, typename BaseModule>
+class ModuleFactory : AbstractModlueFactory<BaseModule> {
  public:
   ModuleFactory(const std::string& className, const std::string& baseClassName)
-      : AbstractModlueFactory<Base>(className, baseClassName) {}
+      : AbstractModlueFactory<BaseModule>(className, baseClassName) {}
 
-  Base *CreateObj() const {
-    return new ModuleObject;
+  std::shared_ptr<BaseModule> createModule() const {
+    return std::shared_ptr<BaseModule>(new Module);
   }
-
- private:
-  smt::module::CreateModule m_createHanle;
-  smt::module::DestroyModuleHandler m_destroyHandle;
 };
 
 }  // namespace loader

@@ -1,28 +1,86 @@
 @startuml Module Hierarchy v0.0.1
 ' left to right direction
 
-node "Module" as module
+node "SingleRunning Ver" {
+  node "Launcher" as singleLauncherVer {
 
-node "User Module" as uModule {
-  node "User Module 1" as uModule1
-  node "User Module 2" as uModule2
-  node "User Module 3" as uModule3
+    node "ModuleLibrary" as module
+
+    node "User Modules" as uModule {
+      node "User Module 1" as uModule1
+      node "User Module 2" as uModule2
+      node "User Module 3" as uModule3
+    }
+
+    node "ModuleLoader1" as moduleLoader1
+    node "ModuleLoader2" as moduleLoader2
+    node "ModuleLoaderManager" as moduleLoaderManager
+    node "ModuleController" as moduleController
+
+    moduleController -[hidden]- moduleLoaderManager
+    moduleLoaderManager -[hidden]- moduleLoader1
+    moduleLoaderManager -[hidden]- moduleLoader2
+    moduleLoader1 -[hidden]- uModule
+    moduleLoader2 -[hidden]- uModule
+    uModule -[hidden]- module
+
+    uModule1 -> module
+    uModule2 -> module
+    uModule3 -> module
+
+    moduleLoader1 -> uModule1
+    moduleLoader1 -> uModule2
+    moduleLoader1 -> uModule3
+    moduleLoader2 -> uModule3
+    moduleLoader2 -> uModule3
+
+    moduleLoaderManager -> moduleLoader1
+    moduleLoaderManager -> moduleLoader2
+
+    moduleController -> moduleLoaderManager
+  }
 }
 
-node "ModuleLoader" as moduleLoader
-node "ModuleController" as moduleController
+node "MiddleWare Ver" {
 
-moduleController -[hidden]- moduleLoader
-moduleLoader -[hidden]- uModule
-uModule -[hidden]- module
+  node "User Modules" as uModule_2 {
+    node "User Module 1" as uModule1_2
+    node "User Module 2" as uModule2_2
+    node "User Module 3" as uModule3_2
+  }
+
+  node "ModuleLibrary" as module_2
+  
+  node "Launcher" as middleWareLauncherVer {
+    node "ModuleLoader1" as moduleLoader1_2
+    node "ModuleLoader2" as moduleLoader2_2
+    node "ModuleLoaderManager" as moduleLoaderManager_2
+    node "ModuleController" as moduleController_2
+
+    moduleController_2 -[hidden]- moduleLoaderManager_2
+    moduleLoaderManager_2 -[hidden]- moduleLoader1_2
+    moduleLoaderManager_2 -[hidden]- moduleLoader2_2
+    moduleLoader1_2 -[hidden]- uModule_2
+    moduleLoader2_2 -[hidden]- uModule_2
+    uModule_2 -[hidden]- module_2
+
+    uModule1_2 -> module_2
+    uModule2_2 -> module_2
+    uModule3_2 -> module_2
+
+    moduleLoader1_2 -> uModule1_2 : dynamic loading
+    moduleLoader1_2 -> uModule2_2 : dynamic loading
+    moduleLoader1_2 -> uModule3_2 : dynamic loading
+    moduleLoader2_2 -> uModule3_2 : dynamic loading
+    moduleLoader2_2 -> uModule3_2 : dynamic loading
+
+    moduleLoaderManager_2 -> moduleLoader1_2
+    moduleLoaderManager_2 -> moduleLoader2_2
+
+    moduleController_2 -> moduleLoaderManager_2
+  }
 
 
-uModule1 -> module
-uModule2 -> module
-uModule3 -> module
-
-moduleLoader -> uModule1
-moduleLoader -> uModule2
-moduleLoader -> uModule3
+}
 
 @enduml

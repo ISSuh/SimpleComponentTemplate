@@ -31,9 +31,7 @@
 namespace smt {
 namespace loader {
 
-namespace util {
-
-using UserModuleFactoryMap = std::map<std::string, smt::loader::AbstractModuleFactoryBase*>;
+// using UserModuleFactoryMap = std::map<std::string, smt::loader::AbstractModuleFactoryBase*>;
 
 // std::recursive_mutex& getModuleFactorMapMutex() {
 //   static std::recursive_mutex instance;
@@ -45,15 +43,51 @@ using UserModuleFactoryMap = std::map<std::string, smt::loader::AbstractModuleFa
 //   return instance;
 // }
 
-UserModuleFactoryMap& getUserModulFactoryMap() {
-    static UserModuleFactoryMap instance;
-    return instance;
-}
+// UserModuleFactoryMap& getUserModulFactoryMap() {
+//   static UserModuleFactoryMap instance;
+//   return instance;
+// }
 
-template<typename Module, typename BaseModule>
-void registUserModule(const std::string& className, const std::string& baseCalssName) {
+// template<typename UserModule, typename BaseModule>
+// void registUserModule(const std::string& className, const std::string& baseCalssName) {
+//   AbstractModlueFactory<BaseModule>* moduleFactrory =
+//     new ModuleFactory<UserModule, BaseModule>(className, baseCalssName);
+
+//   std::cout << "RegistClass" << std::endl;
+
+//   // getModuleFactorMapMutex.lock();
+//   auto& factoryMap = getUserModulFactoryMap();
+//   factoryMap[className] = moduleFactrory;
+//   // getModuleFactorMapMutex.unlock();
+// }
+
+
+// template <typename BaseModule>
+// std::shared_ptr<BaseModule> createUserModule(const std::string& className) {
+//   auto& factoryMap = getUserModulFactoryMap();
+
+//   AbstractModlueFactory<BaseModule>* factory = nullptr;
+//   if (factoryMap.find(className) != factoryMap.end()) {
+//       // factory = dynamic_cast<AbstractModlueFactory<Base>* >(factoryMap[className]);
+//       factory = (AbstractModlueFactory<BaseModule>*)(factoryMap[className]);
+//   }
+
+//   std::shared_ptr<BaseModule> userModule;
+//   if (factory) {
+//       userModule = factory->createModule();
+//   }
+
+//   return classObj;
+// }
+
+class ModuleLoaderUtil {
+ public:
+  using UserModuleFactoryMap = std::map<std::string, smt::loader::AbstractModuleFactoryBase*>;
+
+  template<typename UserModule, typename BaseModule>
+  static void registUserModule(const std::string& className, const std::string& baseCalssName) {
     AbstractModlueFactory<BaseModule>* moduleFactrory =
-      new ModuleFactory<Module, BaseModule>(className, baseCalssName);
+        new ModuleFactory<UserModule, BaseModule>(className, baseCalssName);
 
     std::cout << "RegistClass" << std::endl;
 
@@ -61,11 +95,10 @@ void registUserModule(const std::string& className, const std::string& baseCalss
     auto& factoryMap = getUserModulFactoryMap();
     factoryMap[className] = moduleFactrory;
     // getModuleFactorMapMutex.unlock();
-}
+  }
 
-
-template <typename BaseModule>
-std::shared_ptr<BaseModule> createModule(const std::string& className) {
+  template <typename BaseModule>
+  static std::shared_ptr<BaseModule> createUserModule(const std::string& className) {
     auto& factoryMap = getUserModulFactoryMap();
 
     AbstractModlueFactory<BaseModule>* factory = nullptr;
@@ -80,9 +113,12 @@ std::shared_ptr<BaseModule> createModule(const std::string& className) {
     }
 
     return classObj;
+  }
+
+ private:
+  static UserModuleFactoryMap m_factoryMap;
 }
 
-}  // namespace util
 }  // namespace loader
 }  // namespace smt
 

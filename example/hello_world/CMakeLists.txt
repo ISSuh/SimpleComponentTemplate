@@ -7,11 +7,9 @@ include_directories(
 )
 
 file(GLOB SOURCE 
-    hello_world.cpp
+    hello_world_module.cpp
 )
 
-add_library(hello_world  SHARED
-    ${SOURCE}
-)
+add_library(hello_world SHARED ${SOURCE})
 
 set_target_properties(hello_world PROPERTIES LINKER_LANGUAGE CXX)

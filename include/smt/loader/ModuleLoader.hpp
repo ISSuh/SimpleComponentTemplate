@@ -11,14 +11,10 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <algorithm>
 #include <memory>
-#include <mutex>
-#include <functional>
 
 #include "smt/module/ModuleBase.hpp"
 #include "smt/module/ModuleInfo.hpp"
-#include "smt/loader/ModuleLoaderUtil.hpp"
 
 namespace smt {
 namespace loader {
@@ -33,46 +29,22 @@ namespace loader {
  **/
 class ModuleLoader {
  public:
-  ModuleLoader() : m_handle(smt::base::Handle::GetInstence()),
-                   m_log(spdlog::get(m_handle->GetNodeName())) {}
+  ModuleLoader();
+  ~ModuleLoader();
 
   template <typename Base>
-  std::shared_ptr<Base> createModule(const std::string& className) {
-    Base* moduleObject = util::createModule<Base>(className);
-    if (moduleObject == nullptr) {
-        m_log->error("ModuleLoader::CreateClassObj failed {}", className);
-        return std::shared_ptr<Base>();
-    }
+  std::shared_ptr<Base> createModule(const std::string& className);
 
-    std::lock_guard<std::mutex> lock(m_loadedModule_count_mutex);
-    ++m_loadedModule_count;
-
-    std::shared_ptr<Base> moduleObject_shrPtr(
-            moduleObject, std::bind(&ModuleLoader::OnModuleObjDeleter<Base>, this, std::placeholders::_1));
-
-    return moduleObject_shrPtr;
-  }
-
-  void UnLoadModule() {}
+  void UnLoadModule();
 
  private:
   template<typename Base>
-  void OnModuleObjDeleter(Base *obj) {
-    if (obj == nullptr) {
-      return;
-    }
-
-    std::lock_guard<std::mutex> lock(m_loadedModule_count_mutex);
-    delete obj;
-    --m_loadedModule_count;
-  }
+  void OnModuleObjDeleter(Base *obj);
 
  private:
-  smt::base::Handle* m_handle;
-  std::shared_ptr<spdlog::logger> m_log;
-
-  std::vector<smt::module::Module> m_modules;
-  std::map<std::string, smt::module::ModuleInfo> m_moduleInfoMap;
+  uint32_t m_loadedModuleCount;
+  std::vector<std::shared_ptr<module::Module>> m_modules;
+  std::map<std::string, module::ModuleInfo> m_moduleInfoMap;
 };
 
 }  // namespace loader

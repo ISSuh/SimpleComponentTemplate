@@ -4,21 +4,19 @@
  */
 
 
-#ifndef SMT_LOADER_MODULEREGIST_HPP_
-#define SMT_LOADER_MODULEREGIST_HPP_
+#ifndef SMT_LOADER_MODULEREGISTER_HPP_
+#define SMT_LOADER_MODULEREGISTER_HPP_
 
 #include "smt/loader/module_loader_util.hpp"
 
 namespace smt {
 namespace loader {
 
-
-class 
-#define MODULE_LOADER_REGISTER_INTERNAL(UserModuleClass, ModuleBase, UniqueID)    \
+#define MODULE_REGISTER_INTERNAL(UserModuleClass, ModuleBase, UniqueID)    \
 namespace {                                                                       \
   struct Proxy##UserModuleClass_##UniqueID {                                      \
     Proxy##UserModuleClass_##UniqueID() {                                         \
-        smt::loader::util::registUserModule<UserModuleClass, ModuleBase>(         \
+        ModuleLoaderUtil::registUserModule<UserModuleClass, ModuleBase>(          \
           #UserModuleClass, #ModuleBase);                                         \
     }                                                                             \
   };                                                                              \
@@ -26,10 +24,14 @@ namespace {                                                                     
 }
 
 // register class macro
-#define MODULE_LOADER_REGISTER(UserModuleClass, ModuleBase) \
-  MODULE_LOADER_REGISTER_INTERNAL(UserModuleClass, ModuleBase, __COUNTER__)
+#define MODULE_REGISTER(UserModuleClass, ModuleBase) \
+  MODULE_REGISTER_INTERNAL(UserModuleClass, ModuleBase, __COUNTER__)
+
+// register class macro
+#define REGIST_MODULE(UserModuleClass) \
+  MODULE_REGISTER_INTERNAL(UserModuleClass, smt::module::Module)
 
 }  // namespace loader
 }  // namespace smt
 
-#endif  // SMT_LOADER_MODULEREGIST_HPP_
+#endif  // SMT_LOADER_MODULEREGISTER_HPP_

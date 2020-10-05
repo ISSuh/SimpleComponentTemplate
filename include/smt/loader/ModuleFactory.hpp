@@ -52,14 +52,14 @@ class AbstractModlueFactory : public AbstractModuleFactoryBase {
   AbstractModlueFactory &operator=(const AbstractModlueFactory &);
 };
 
-template <typename Module, typename BaseModule>
+template <typename UserModule, typename BaseModule>
 class ModuleFactory : AbstractModlueFactory<BaseModule> {
  public:
   ModuleFactory(const std::string& className, const std::string& baseClassName)
       : AbstractModlueFactory<BaseModule>(className, baseClassName) {}
 
   std::shared_ptr<BaseModule> createModule() const {
-    return std::shared_ptr<BaseModule>(new Module);
+    return std::shared_ptr<BaseModule>(new UserModule);
   }
 };
 

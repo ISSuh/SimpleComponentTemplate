@@ -3,9 +3,10 @@
  * Distributed under the MIT License (http://opensource.org/licenses/MIT)
  */
 
-#ifndef SMT_LOADER_MODULE_LOAD_MANAGER_HPP_
-#define SMT_LOADER_MODULE_LOAD_MANAGER_HPP_
+#ifndef SMT_LOADER_MODULELOADERMANAGER_HPP_
+#define SMT_LOADER_MODULELOADERMANAGER_HPP_
 
+#include <string>
 #include <map>
 #include <memory>
 
@@ -23,39 +24,23 @@ namespace loader {
  **/
 class ModuleLoadManager {
  public:
-  ModuleLoadManager() : m_handle(smt::base::Handle::GetInstence()),
-                        m_log(spdlog::get(m_handle->GetNodeName())) {}
+  ModuleLoadManager();
+  ~ModuleLoadManager();
 
-  void LoadModule(const std::string& moduleName) {
-      m_loader_map[moduleName] = new smt::loader::ModuleLoader();
-  }
+  void LoadModule(const std::string& moduleName);
+  void UnLoadModule();
 
   template <typename Base>
-  std::shared_ptr<Base> CreateClassObj(const std::string& moduleName, const std::string& className) {
-    ModuleLoader* loader = GetModuleLoader(moduleName);
-    if (!loader) {
-      m_log->error("ModuleLoadManager::Could not create user class obj {}", className);
-      return std::shared_ptr<Base>();
-    }
-
-    return loader->CreateClassObj<Base>(className);
-  }
-
-  void UnLoadModule() {}
+  std::shared_ptr<Base> CreateClassObj(const std::string& moduleName, const std::string& className);
 
  private:
-  ModuleLoader* GetModuleLoader(const std::string& moduleName) {
-    return m_loader_map[moduleName];
-  }
+  ModuleLoader* GetModuleLoader(const std::string& moduleName);
 
  private:
-  smt::base::Handle* m_handle;
-  std::shared_ptr<spdlog::logger> m_log;
-
-  std::map<std::string, smt::loader::ModuleLoader*> m_loader_map;
+  std::map<std::string, std::unique_ptr<ModuleLoader>> m_loaderMap;
 };
 
 }  // namespace loader
 }  // namespace smt
 
-#endif  // SMT_LOADER_MODULE_LOAD_MANAGER_HPP_
+#endif  // SMT_LOADER_MODULELOADERMANAGER_HPP_

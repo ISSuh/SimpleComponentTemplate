@@ -26,22 +26,6 @@ SET ( CMAKE_C_FLAGS_RELEASE "-DRELEASE -DC_FLAGS" )
 SET ( CMAKE_EXE_LINKER_FLAGS_RELEASE "-DRELEASE -DLINKER_FLAGS" )
 
 #-------------------------------------------------------------------------------
-# third party Module
-#-------------------------------------------------------------------------------
-set(JSON_BuildTests OFF CACHE INTERNAL "")
-add_subdirectory(third_party/json
-				third_party/json
-)
-
-add_subdirectory(third_party/spdlog
-				third_party/spdlog
-)
-
-link_directories( 
-	build/third_party/spdlog
-)
-
-#-------------------------------------------------------------------------------
 # Uer Module
 #-------------------------------------------------------------------------------
 add_subdirectory(example
@@ -74,10 +58,6 @@ file(GLOB SOURCE SOURCE
 #-------------------------------------------------------------------------------
 add_executable(smtNode ${SOURCE})
 
-target_link_libraries(smtNode
-PRIVATE
-	nlohmann_json::nlohmann_json
-	spdlog
-)
+# target_link_libraries(smtNode PRIVATE)
 
 set_property(TARGET smtNode PROPERTY FOLDER "build")

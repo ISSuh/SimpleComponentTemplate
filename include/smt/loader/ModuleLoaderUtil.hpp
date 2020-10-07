@@ -1,31 +1,14 @@
-/******************************************************************************
- * Copyright 2019 The ISSuh Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *****************************************************************************/
+/**
+ * Copyright 2020 The ISSuh Authors. All Rights Reserved.
+ * Distributed under the MIT License (http://opensource.org/licenses/MIT)
+ */
 
-#ifndef SMT_LOADER_MODULELOADERUTIL_HPP_   
+#ifndef SMT_LOADER_MODULELOADERUTIL_HPP_
 #define SMT_LOADER_MODULELOADERUTIL_HPP_
 
-#include <iostream>
-#include <vector>
 #include <string>
 #include <map>
-#include <mutex>
-#include <memory>
 
-#include "smt/module/ModuleBase.hpp"
-#include "smt/loader/ModuleLoader.hpp"
 #include "smt/loader/ModuleFactory.hpp"
 
 namespace smt {
@@ -80,44 +63,20 @@ namespace loader {
 //   return classObj;
 // }
 
+using UserModuleFactoryMap = std::map<std::string, smt::loader::AbstractModuleFactoryBase*>;
+
 class ModuleLoaderUtil {
  public:
-  using UserModuleFactoryMap = std::map<std::string, smt::loader::AbstractModuleFactoryBase*>;
 
   template<typename UserModule, typename BaseModule>
-  static void registUserModule(const std::string& className, const std::string& baseCalssName) {
-    AbstractModlueFactory<BaseModule>* moduleFactrory =
-        new ModuleFactory<UserModule, BaseModule>(className, baseCalssName);
-
-    std::cout << "RegistClass" << std::endl;
-
-    // getModuleFactorMapMutex.lock();
-    auto& factoryMap = getUserModulFactoryMap();
-    factoryMap[className] = moduleFactrory;
-    // getModuleFactorMapMutex.unlock();
-  }
+  static void registUserModule(const std::string& className, const std::string& baseCalssName);
 
   template <typename BaseModule>
-  static std::shared_ptr<BaseModule> createUserModule(const std::string& className) {
-    auto& factoryMap = getUserModulFactoryMap();
-
-    AbstractModlueFactory<BaseModule>* factory = nullptr;
-    if (factoryMap.find(className) != factoryMap.end()) {
-        // factory = dynamic_cast<AbstractModlueFactory<Base>* >(factoryMap[className]);
-        factory = (AbstractModlueFactory<BaseModule>*)(factoryMap[className]);
-    }
-
-    std::shared_ptr<BaseModule> userModule;
-    if (factory) {
-        userModule = factory->createModule();
-    }
-
-    return classObj;
-  }
+  static std::shared_ptr<BaseModule> createUserModule(const std::string& className);
 
  private:
   static UserModuleFactoryMap m_factoryMap;
-}
+};
 
 }  // namespace loader
 }  // namespace smt

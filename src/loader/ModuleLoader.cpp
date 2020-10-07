@@ -22,19 +22,20 @@ ModuleLoader::~ModuleLoader() {}
 
 template <typename Base>
 std::shared_ptr<Base> ModuleLoader::createModule(const std::string& className) {
-  Base* moduleObject = util::createModule<Base>(className);
-  if (moduleObject == nullptr) {
-      m_log->error("ModuleLoader::CreateClassObj failed {}", className);
-      return std::shared_ptr<Base>();
-  }
+  // Base* moduleObject = smt::util::createModule<Base>(className);
+  // if (moduleObject == nullptr) {
+  //     // m_log->error("ModuleLoader::CreateClassObj failed {}", className);
+  //     return std::shared_ptr<Base>();
+  // }
 
-  std::lock_guard<std::mutex> lock(m_loadedModuleCount_mutex);
-  ++m_loadedModuleCount;
+  // // std::lock_guard<std::mutex> lock(m_loadedModuleCount_mutex);
+  // ++m_loadedModuleCount;
 
-  std::shared_ptr<Base> moduleObject_shrPtr(
-          moduleObject, std::bind(&ModuleLoader::OnModuleObjDeleter<Base>, this, std::placeholders::_1));
+  // std::shared_ptr<Base> moduleObject_shrPtr(
+  //         moduleObject, std::bind(&ModuleLoader::OnModuleObjDeleter<Base>, this, std::placeholders::_1));
 
-  return moduleObject_shrPtr;
+  // return moduleObject_shrPtr;
+  return nullptr;
 }
 
 void ModuleLoader::UnLoadModule() {}
@@ -45,7 +46,7 @@ void ModuleLoader::OnModuleObjDeleter(Base *obj) {
     return;
   }
 
-  std::lock_guard<std::mutex> lock(m_loadedModuleCount_mutex);
+  // std::lock_guard<std::mutex> lock(m_loadedModuleCount_mutex);
   delete obj;
   --m_loadedModuleCount;
 }

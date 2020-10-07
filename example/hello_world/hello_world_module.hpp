@@ -1,10 +1,20 @@
-#include <smt/smt.hpp>
+/**
+ * Copyright 2020 The ISSuh Authors. All Rights Reserved.
+ * Distributed under the MIT License (http://opensource.org/licenses/MIT)
+ */
 
-class SampleModule : public smt::module::Module {
+#ifndef EXAMPLE_HELLO_WORLD_HELLO_WORLD_MODULE_HPP_
+#define EXAMPLE_HELLO_WORLD_HELLO_WORLD_MODULE_HPP_
+
+#include <string>
+
+#include <smt/module/Module.hpp>
+
+class SampleModule final : public smt::module::Module {
  public:
-  bool Init() override;
-  bool Run() override;
-  bool Clear() override;
+  void init() override;
+  void run() override;
+  void terminate() override;
 
  private:
   std::string str;
@@ -15,3 +25,5 @@ class SampleModule : public smt::module::Module {
 };
 
 REGIST_MODULE(SampleModule);
+
+#endif  // EXAMPLE_HELLO_WORLD_HELLO_WORLD_MODULE_HPP_

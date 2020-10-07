@@ -11,10 +11,6 @@
 #include <string>
 #include <memory>
 
-#include "smt/base/handle.hpp"
-#include "smt/module/Module.hpp"
-#include "smt/loader/ModuleLoader.hpp"
-
 namespace smt {
 namespace loader {
 
@@ -38,7 +34,7 @@ class AbstractModuleFactoryBase {
   const std::string m_className;
 };
 
-template <typename Base>
+template <typename BaseModule>
 class AbstractModlueFactory : public AbstractModuleFactoryBase {
  public:
   AbstractModlueFactory(const std::string& className, const std::string& baseClassName)

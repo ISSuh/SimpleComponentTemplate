@@ -10,16 +10,15 @@
 #include <memory>
 
 #include "smt/controller/ModuleController.hpp"
+#include "smt/util/JsonWrapper.hpp"
 
 namespace smt {
 namespace controller {
 
-ModuleController::ModuleController() : m_handle(smt::base::Handle::GetInstence()),
-                                        m_log(spdlog::get(m_handle->GetNodeName())) {}
+ModuleController::ModuleController() {}
 
 bool ModuleController::Init() {
     if (!LoadAllModule()) {
-        m_log->error("Fail Load Module");
         return false;
     }
 
@@ -29,29 +28,21 @@ bool ModuleController::Init() {
 void ModuleController::Clear() {}
 
 bool ModuleController::LoadAllModule() {
-    auto args = m_handle->GetArguments();
-
-    for (const auto& moduleIndex : args) {
-        if (!LoadMoule(m_handle->GetArguments_map(moduleIndex.first))) {
-            m_log->error("ModuleController::Fail Load {} Module", moduleIndex.first);
-            return false;
-        }
-    }
     return true;
 }
 
-bool ModuleController::LoadMoule(const json& arg) {
-    auto moduleName = arg[JSONKEY_MODULE_NAME].get<std::string>();
-    auto className = arg[JSONKEY_MODULE][JSONKEY_CLASS_NAME].get<std::string>();
+// bool ModuleController::LoadMoule(const json& arg) {
+    // auto moduleName = arg[JSONKEY_MODULE_NAME].get<std::string>();
+    // auto className = arg[JSONKEY_MODULE][JSONKEY_CLASS_NAME].get<std::string>();
 
-    m_loadManager.LoadModule(moduleName);
+    // m_loadManager.LoadModule(moduleName);
 
-    std::shared_ptr<ModuleBase> base = m_loadManager.CreateClassObj<ModuleBase>(moduleName, className);
+    // std::shared_ptr<ModuleBase> base = m_loadManager.CreateClassObj<ModuleBase>(moduleName, className);
 
-    m_moduleLists.emplace_back(std::move(base));
+    // m_moduleLists.emplace_back(std::move(base));
 
-    return true;
-}
+//     return true;
+// }
 
 }  // namespace controller
 }  // namespace smt

@@ -13,7 +13,7 @@
 #include <map>
 #include <memory>
 
-#include "smt/module/ModuleBase.hpp"
+#include "smt/module/Module.hpp"
 #include "smt/module/ModuleInfo.hpp"
 
 namespace smt {
@@ -43,8 +43,8 @@ class ModuleLoader {
 
  private:
   uint32_t m_loadedModuleCount;
-  std::vector<std::shared_ptr<module::Module>> m_modules;
-  std::map<std::string, module::ModuleInfo> m_moduleInfoMap;
+  std::vector<std::shared_ptr<smt::module::Module>> m_modules;
+  std::map<std::string, smt::module::UserModuleInfo> m_moduleInfoMap;
 };
 
 }  // namespace loader

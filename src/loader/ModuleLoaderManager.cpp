@@ -16,7 +16,7 @@ ModuleLoadManager::ModuleLoadManager() {}
 ModuleLoadManager::~ModuleLoadManager() {}
 
 void ModuleLoadManager::LoadModule(const std::string& moduleName) {
-    m_loaderMap[moduleName] = new smt::loader::ModuleLoader();
+    m_loaderMap[moduleName] = std::unique_ptr<ModuleLoader>(new smt::loader::ModuleLoader());
 }
 
 void ModuleLoadManager::UnLoadModule() {}
@@ -25,7 +25,7 @@ template <typename Base>
 std::shared_ptr<Base> ModuleLoadManager::CreateClassObj(const std::string& moduleName, const std::string& className) {
   ModuleLoader* loader = GetModuleLoader(moduleName);
   if (!loader) {
-    m_log->error("ModuleLoadManager::Could not create user class obj {}", className);
+    // m_log->error("ModuleLoadManager::Could not create user class obj {}", className);
     return std::shared_ptr<Base>();
   }
 
@@ -34,7 +34,7 @@ std::shared_ptr<Base> ModuleLoadManager::CreateClassObj(const std::string& modul
 
 
 ModuleLoader* ModuleLoadManager::GetModuleLoader(const std::string& moduleName) {
-  return m_loaderMap[moduleName];
+  return m_loaderMap[moduleName].get();
 }
 
 }  // namespace loader

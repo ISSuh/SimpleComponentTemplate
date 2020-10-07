@@ -29,12 +29,9 @@ class ModuleController {
 
  private:
   bool LoadAllModule();
-  bool LoadMoule(const json& arg);
+  // bool LoadMoule(const json& arg);
 
  private:
-  smt::base::Handle *m_handle;
-  std::shared_ptr<spdlog::logger> m_log;
-
   smt::loader::ModuleLoadManager m_loadManager;
   std::vector<std::shared_ptr<smt::module::ModuleBase>> m_moduleLists;
 };

@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "smt/module/ModuleBase.hpp"
+#include "smt/module/ModuleRegister.hpp"
 
 namespace smt {
 namespace module {
@@ -65,8 +66,9 @@ class Module : public smt::module::ModuleBase {
  private:
 };
 
-#define REGIST_MODULE(name) \
-MODULE_LOADER_REGISTER(name, smt::module::Module)
+// register class macro
+#define REGIST_MODULE(UserModuleClass) \
+  MODULE_REGISTER(UserModuleClass, smt::module::Module)
 
 }  // namespace module
 }  // namespace smt

@@ -10,7 +10,6 @@
 #include <map>
 #include <memory>
 
-#include "smt/base/handle.hpp"
 #include "smt/loader/ModuleLoader.hpp"
 
 namespace smt {

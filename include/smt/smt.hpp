@@ -6,4 +6,11 @@
 #ifndef SMT_SMT_HPP_
 #define SMT_SMT_HPP_
 
+#include "module/Module.hpp"
+
+#include "loader/ModuleLoader.hpp"
+#include "loader/ModuleLoaderManager.hpp"
+#include "loader/ModuleFactory.hpp"
+#include "loader/ModuleLoaderUtil.hpp"
+
 #endif  // SMT_SMT_HPP_

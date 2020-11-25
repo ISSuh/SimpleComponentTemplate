@@ -6,8 +6,11 @@
 #ifndef SMT_LOADER_MODULELOADERUTIL_HPP_
 #define SMT_LOADER_MODULELOADERUTIL_HPP_
 
+#include <iostream>
 #include <string>
 #include <map>
+#include <memory>
+#include <utility>
 
 #include "smt/loader/ModuleFactory.hpp"
 
@@ -67,7 +70,6 @@ using UserModuleFactoryMap = std::map<std::string, smt::loader::AbstractModuleFa
 
 class ModuleLoaderUtil {
  public:
-
   template<typename UserModule, typename BaseModule>
   static void registUserModule(const std::string& className, const std::string& baseCalssName);
 
@@ -77,6 +79,35 @@ class ModuleLoaderUtil {
  private:
   static UserModuleFactoryMap m_factoryMap;
 };
+
+template<typename UserModule, typename BaseModule>
+void ModuleLoaderUtil::registUserModule(const std::string& className, const std::string& baseCalssName) {
+  std::cout << "ModuleLoaderUtil::RegistClass - " << className << ", " << baseCalssName << std::endl;
+
+  AbstractModlueFactory<BaseModule>* moduleFactrory =
+      new ModuleFactory<UserModule, BaseModule>(className, baseCalssName);
+
+  m_factoryMap[className] = moduleFactrory;
+
+  std::cout << m_factoryMap.size() << " / " << &m_factoryMap << std::endl;
+}
+
+template <typename BaseModule>
+std::shared_ptr<BaseModule> ModuleLoaderUtil::createUserModule(const std::string& className) {
+  std::cout << "ModuleLoaderUtil::createUserModule - " << className << std::endl;
+
+  AbstractModlueFactory<BaseModule>* factory = nullptr;
+  if (m_factoryMap.find(className) != m_factoryMap.end()) {
+    factory = dynamic_cast<AbstractModlueFactory<BaseModule>*>(m_factoryMap[className]);
+  }
+
+  std::shared_ptr<BaseModule> userModule;
+  if (factory != nullptr) {
+      userModule = factory->createModule();
+  }
+
+  return userModule;
+}
 
 }  // namespace loader
 }  // namespace smt

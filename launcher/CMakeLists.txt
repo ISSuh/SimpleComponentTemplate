@@ -1,13 +1,15 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.2)
-project(hello_world)
+project(smt_launcher)
 
-message("SimpleModule hello_world Example")
+message("SMT Launcher build")
 
 #-------------------------------------------------------------------------------
 # Compile Option
 #-------------------------------------------------------------------------------
+set(CMAKE_CXX_COMPILER "/usr/bin/g++")
 SET (CMAKE_CXX_STANDARD 11)
 SET (CMAKE_CXX_STANDARD_REQUIRED ON)
+# set (CMAKE_CXX_FLAGS "-g -Wall -fPIC -rdynamic -shared -ldl -C")
 set (CMAKE_CXX_FLAGS "-g -Wall -fPIC -rdynamic -ldl -C")
 
 #-------------------------------------------------------------------------------
@@ -17,24 +19,22 @@ set (CMAKE_CXX_FLAGS "-g -Wall -fPIC -rdynamic -ldl -C")
 SET(CMAKE_EXE_LINKER_FLAGS_DEBUG "-DDEBUG -DLINKER_FLAGS")
 
 #-------------------------------------------------------------------------------
-# Example Build
+#  Node build
 #-------------------------------------------------------------------------------
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${BUILD_DIR_LIBRARY})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY  ${BUILD_DIR_RUNTIME})
 
 include_directories(
-  ${SRPC_INCLUDES}
+  ${SMT_INCLUDES}
 )
 
 link_directories(
   ${BUILD_DIR_LIBRARY}
 )
 
-SET(EXAMPLE_SOURCE
-  hello_world_module.cpp
+SET(SMT_SOURCES_NODE
+  Node.cpp
 )
 
-add_library(hello_world SHARED ${EXAMPLE_SOURCE})
-target_include_directories(hello_world PUBLIC ${SMT_INCLUDES})
-target_link_libraries(hello_world PUBLIC smt)
-
-set_target_properties(hello_world PROPERTIES LINKER_LANGUAGE CXX)
+add_executable(smtNode Node.cpp)
+target_include_directories(smtNode PUBLIC ${SMT_INCLUDES})
+target_link_libraries(smtNode PUBLIC smt ${CMAKE_DL_LIBS})

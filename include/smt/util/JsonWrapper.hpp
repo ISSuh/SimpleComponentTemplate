@@ -25,16 +25,16 @@ namespace util {
 
 using json = nlohmann::json;
 
-const std::string JSONKEY_NODE_NAME   ("node_name");
-const std::string JSONKEY_LOG_LEVEL   ("log_level");
-const std::string JSONKEY_MODULES     ("modules");
-const std::string JSONKEY_MODULE_NAME ("module_name");
-const std::string JSONKEY_MODULE_PATH ("module_path");
-const std::string JSONKEY_MODULE      ("module");
-const std::string JSONKEY_CLASS_NAME  ("class_name");
-const std::string JSONKEY_CONFIGURE   ("configure");
-const std::string JSONKEY_THREADING   ("threading");
-const std::string JSONKEY_ARGS        ("args");
+const char* JSONKEY_NODE_NAME   = "node_name";
+const char* JSONKEY_LOG_LEVEL   = "log_level";
+const char* JSONKEY_MODULES     = "modules";
+const char* JSONKEY_MODULE_NAME = "module_name";
+const char* JSONKEY_MODULE_PATH = "module_path";
+const char* JSONKEY_MODULE      = "module";
+const char* JSONKEY_CLASS_NAME  = "class_name";
+const char* JSONKEY_CONFIGURE   = "configure";
+const char* JSONKEY_THREADING   = "threading";
+const char* JSONKEY_ARGS        = "args";
 
 class JsonWrapper {
  public:

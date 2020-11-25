@@ -6,8 +6,6 @@
 #ifndef SMT_LOADER_MODULEFACTORY_HPP_
 #define SMT_LOADER_MODULEFACTORY_HPP_
 
-#include <dlfcn.h>
-
 #include <string>
 #include <memory>
 
@@ -49,7 +47,7 @@ class AbstractModlueFactory : public AbstractModuleFactoryBase {
 };
 
 template <typename UserModule, typename BaseModule>
-class ModuleFactory : AbstractModlueFactory<BaseModule> {
+class ModuleFactory : public AbstractModlueFactory<BaseModule> {
  public:
   ModuleFactory(const std::string& className, const std::string& baseClassName)
       : AbstractModlueFactory<BaseModule>(className, baseClassName) {}

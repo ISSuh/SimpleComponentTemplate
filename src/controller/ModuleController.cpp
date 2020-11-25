@@ -3,9 +3,6 @@
  * Distributed under the MIT License (http://opensource.org/licenses/MIT)
  */
 
-#ifndef SMT_CONTROLLER_MODUL_CONTROLLER
-#define SMT_CONTROLLER_MODUL_CONTROLLER
-
 #include <vector>
 #include <memory>
 
@@ -18,33 +15,32 @@ namespace controller {
 ModuleController::ModuleController() {}
 
 bool ModuleController::Init() {
-    if (!LoadAllModule()) {
-        return false;
-    }
+  if (!LoadAllModule()) {
+    return false;
+  }
 
-    return true;
+  return true;
 }
 
 void ModuleController::Clear() {}
 
 bool ModuleController::LoadAllModule() {
-    return true;
+  return true;
 }
 
-// bool ModuleController::LoadMoule(const json& arg) {
-    // auto moduleName = arg[JSONKEY_MODULE_NAME].get<std::string>();
-    // auto className = arg[JSONKEY_MODULE][JSONKEY_CLASS_NAME].get<std::string>();
+// bool ModuleController::LoadMoule(const util::json& arg) {
+//   auto moduleName = arg[util::JSONKEY_MODULE_NAME].get<std::string>();
+//   auto className = arg[util::JSONKEY_MODULE][util::JSONKEY_CLASS_NAME].get<std::string>();
 
-    // m_loadManager.LoadModule(moduleName);
+//   m_loadManager.LoadModule(moduleName);
 
-    // std::shared_ptr<ModuleBase> base = m_loadManager.CreateClassObj<ModuleBase>(moduleName, className);
+//   std::shared_ptr<module::ModuleBase> base =
+//         m_loadManager.CreateClassObj<module::ModuleBase>(moduleName, className);
 
-    // m_moduleLists.emplace_back(std::move(base));
+//   m_moduleLists.emplace_back(std::move(base));
 
-//     return true;
+//   return true;
 // }
 
 }  // namespace controller
 }  // namespace smt
-
-#endif

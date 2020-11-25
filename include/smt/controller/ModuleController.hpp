@@ -29,14 +29,14 @@ class ModuleController {
 
  private:
   bool LoadAllModule();
-  // bool LoadMoule(const json& arg);
+  // bool LoadMoule(const util::json& arg);
 
  private:
   smt::loader::ModuleLoadManager m_loadManager;
-  std::vector<std::shared_ptr<smt::module::ModuleBase>> m_moduleLists;
+  std::vector<std::shared_ptr<module::ModuleBase>> m_moduleLists;
 };
 
 }  // namespace controller
 }  // namespace smt
 
-#endif
+#endif  // SMT_CONTROLLER_MODULECONTROLLER_HPP_

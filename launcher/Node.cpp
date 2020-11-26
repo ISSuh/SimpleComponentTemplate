@@ -12,11 +12,7 @@
 const char* TEST_MODULE_PATH = "/home/issuh/workspace/myProject/SimpleModule/build/lib/libhello_world.so";
 
 int main() {
-  smt::module::Module* module = nullptr;
-
-  std::cout << "Hello World! - " << std::endl;
-
-  smt::loader::ModuleLoaderUtil::registUserModule<int, int>("test", "tret");
+  std::cout << "SimpleModule Node" << std::endl;
 
   void* module1 = dlopen(TEST_MODULE_PATH, RTLD_LAZY | RTLD_GLOBAL);
   if (!module1) {
@@ -24,10 +20,14 @@ int main() {
     exit(1);
   }
 
-  auto userModule1 = smt::loader::ModuleLoaderUtil::createUserModule<int>("test");
-  auto userModule2 = smt::loader::ModuleLoaderUtil::createUserModule<smt::module::Module>("SampleModule");
+  smt::loader::ModuleLoader loader;
 
-  userModule2->initialize();
-  userModule2->process();
-  userModule2->shutdown();
+  auto userModule = loader.createModule<smt::module::Module>("SampleModule");
+
+  userModule->initialize();
+  userModule->process();
+  userModule->shutdown();
+
+  // loader.unLoadModule("test");
+  loader.unLoadModule("SampleModule");
 }

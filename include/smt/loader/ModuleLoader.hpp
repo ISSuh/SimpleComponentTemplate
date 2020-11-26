@@ -9,7 +9,6 @@
 #include <dlfcn.h>
 
 #include <string>
-#include <vector>
 #include <map>
 #include <memory>
 
@@ -20,13 +19,6 @@ namespace smt {
 namespace loader {
 
 // TODO(issuh) : Implement ModuleLoader Class
-/**
- *  ModuleLoader Class
- *  
- *  Load user module class
- *  Interface for communicate user module
- * 
- **/
 class ModuleLoader {
  public:
   ModuleLoader();
@@ -34,18 +26,32 @@ class ModuleLoader {
 
   template <typename Base>
   std::shared_ptr<Base> createModule(const std::string& className);
-
-  void UnLoadModule();
-
- private:
-  template<typename Base>
-  void OnModuleObjDeleter(Base *obj);
+  void unLoadModule(const std::string& className);
 
  private:
   uint32_t m_loadedModuleCount;
-  std::vector<std::shared_ptr<smt::module::Module>> m_modules;
+  std::map<std::string, std::shared_ptr<smt::module::Module>> m_modules;
   std::map<std::string, smt::module::UserModuleInfo> m_moduleInfoMap;
 };
+
+template <typename Base>
+std::shared_ptr<Base> ModuleLoader::createModule(const std::string& className) {
+  std::cout << "ModuleLoader::createModule - " << className << std::endl;
+
+  if (ModuleLoaderUtil::searchModulebyClassNeme(className) == false) {
+    return nullptr;
+  }
+
+  const smt::loader::AbstractModlueFactory<Base>* facotry =
+          ModuleLoaderUtil::getModuleFactory<Base>(className);
+
+  // std::lock_guard<std::mutex> lock(m_loadedModuleCount_mutex);
+
+  m_modules[className] = std::shared_ptr<Base>(facotry->createModule());
+  ++m_loadedModuleCount;
+
+  return m_modules[className];
+}
 
 }  // namespace loader
 }  // namespace smt

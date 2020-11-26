@@ -8,7 +8,14 @@
 namespace smt {
 namespace loader {
 
-UserModuleFactoryMap ModuleLoaderUtil::m_factoryMap = UserModuleFactoryMap();
+ModuleFactoryMap ModuleLoaderUtil::m_factoryMap = ModuleFactoryMap();
+
+bool ModuleLoaderUtil::searchModulebyClassNeme(const std::string& className) {
+  if (m_factoryMap.find(className) == m_factoryMap.end()) {
+    return false;
+  }
+  return true;
+}
 
 }  // namespace loader
 }  // namespace smt

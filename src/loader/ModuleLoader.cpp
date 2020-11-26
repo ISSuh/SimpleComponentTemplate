@@ -20,35 +20,13 @@ ModuleLoader::ModuleLoader() : m_loadedModuleCount(0) {}
 
 ModuleLoader::~ModuleLoader() {}
 
-template <typename Base>
-std::shared_ptr<Base> ModuleLoader::createModule(const std::string& className) {
-  // Base* moduleObject = smt::util::createModule<Base>(className);
-  // if (moduleObject == nullptr) {
-  //     // m_log->error("ModuleLoader::CreateClassObj failed {}", className);
-  //     return std::shared_ptr<Base>();
-  // }
-
-  // // std::lock_guard<std::mutex> lock(m_loadedModuleCount_mutex);
-  // ++m_loadedModuleCount;
-
-  // std::shared_ptr<Base> moduleObject_shrPtr(
-  //         moduleObject, std::bind(&ModuleLoader::OnModuleObjDeleter<Base>, this, std::placeholders::_1));
-
-  // return moduleObject_shrPtr;
-  return nullptr;
-}
-
-void ModuleLoader::UnLoadModule() {}
-
-template<typename Base>
-void ModuleLoader::OnModuleObjDeleter(Base *obj) {
-  if (obj == nullptr) {
-    return;
+void ModuleLoader::unLoadModule(const std::string& className) {
+  std::cout << "ModuleLoader::UnLoadModule - " << className << std::endl;
+  if (m_modules.find(className) != m_modules.end()) {
+    m_modules[className].reset();
+    m_modules.erase(className);
+    --m_loadedModuleCount;
   }
-
-  // std::lock_guard<std::mutex> lock(m_loadedModuleCount_mutex);
-  delete obj;
-  --m_loadedModuleCount;
 }
 
 }  // namespace loader

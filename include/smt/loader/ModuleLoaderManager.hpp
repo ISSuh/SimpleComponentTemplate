@@ -15,12 +15,6 @@
 namespace smt {
 namespace loader {
 
-// TODO(issuh) : Implement ModuleLoaderManager Class
-/**
- *  ModuleLoaderManager Class
- *  
- * 
- **/
 class ModuleLoadManager {
  public:
   ModuleLoadManager();

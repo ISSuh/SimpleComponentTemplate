@@ -15,11 +15,6 @@
 namespace smt {
 namespace controller {
 
-// TODO(issuh) : Implement ModuleController Class
-/**
- *  ModuleController Class
- * 
- **/
 class ModuleController {
  public:
   ModuleController();
@@ -33,7 +28,6 @@ class ModuleController {
 
  private:
   smt::loader::ModuleLoadManager m_loadManager;
-  std::vector<std::shared_ptr<module::ModuleBase>> m_moduleLists;
 };
 
 }  // namespace controller

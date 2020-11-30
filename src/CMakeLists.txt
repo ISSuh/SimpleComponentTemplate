@@ -32,12 +32,15 @@ SET(SMT_SOURCES_LOADER
   loader/ModuleLoader.cpp
   loader/ModuleLoaderManager.cpp
   loader/ModuleLoaderUtil.cpp
+  loader/ModuleOpener.cpp
 )
 
 SET(SMT_SOURCES_MODULE
+  module/ModuleInfo.cpp
 )
 
 SET(SMT_SOURCES_UTIL
+  util/JsonWrapper.cpp
 )
 
 SET(SMT_SOURCES

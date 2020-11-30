@@ -8,18 +8,16 @@
 
 #include "smt/loader/ModuleLoaderUtil.hpp"
 #include "smt/loader/ModuleLoader.hpp"
+#include "smt/loader/ModuleOpener.hpp"
 
-const char* TEST_MODULE_PATH = "/home/issuh/workspace/myProject/SimpleModule/build/lib/libhello_world.so";
 
 int main() {
   std::cout << "SimpleModule Node" << std::endl;
 
-  void* module1 = dlopen(TEST_MODULE_PATH, RTLD_LAZY | RTLD_GLOBAL);
-  if (!module1) {
-    std::cerr << dlerror() << std::endl;
-    exit(1);
-  }
+  const std::string TEST_MODULE_PATH =
+      "/home/issuh/workspace/myProject/SimpleModule/build/lib/libhello_world.so";
 
+  smt::loader::ModuleOpener::moduleOpen(TEST_MODULE_PATH);
   smt::loader::ModuleLoader loader;
 
   auto userModule = loader.createModule<smt::module::Module>("SampleModule");

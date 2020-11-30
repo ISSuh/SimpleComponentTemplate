@@ -1,52 +1,86 @@
-/******************************************************************************
- * Copyright 2019 The ISSuh Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *****************************************************************************/
+/**
+ * Copyright 2020 The ISSuh Authors. All Rights Reserved.
+ * Distributed under the MIT License (http://opensource.org/licenses/MIT)
+ */
 
 #ifndef SMT_UTIL_JSONWRAPPER_HPP_
 #define SMT_UTIL_JSONWRAPPER_HPP_
 
 #include <string>
-#include <smt/util/thirdParty/json/json.hpp>
+#include "smt/util/thirdParty/json/json.hpp"
 
 namespace smt {
 namespace util {
 
 using json = nlohmann::json;
 
-const char* JSONKEY_NODE_NAME   = "node_name";
-const char* JSONKEY_LOG_LEVEL   = "log_level";
-const char* JSONKEY_MODULES     = "modules";
-const char* JSONKEY_MODULE_NAME = "module_name";
-const char* JSONKEY_MODULE_PATH = "module_path";
-const char* JSONKEY_MODULE      = "module";
-const char* JSONKEY_CLASS_NAME  = "class_name";
-const char* JSONKEY_CONFIGURE   = "configure";
-const char* JSONKEY_THREADING   = "threading";
-const char* JSONKEY_ARGS        = "args";
+class JSONKEY {
+ public:
+  static const char* NODE_NAME;
+  static const char* LOG_LEVEL;
+  static const char* MODULES;
+  static const char* MODULE_NAME;
+  static const char* MODULE_PATH;
+  static const char* MODULE;
+  static const char* CLASS_NAME;
+  static const char* CONFIGURE;
+  static const char* THREADING;
+  static const char* ARGS;
+};
 
 class JsonWrapper {
  public:
-  explicit JsonWrapper(const char* jsonStr) { m_jsonObj = jsonStr; }
-  explicit JsonWrapper(const std::string& jsonStr) { m_jsonObj = jsonStr.c_str(); }
+  JsonWrapper() : m_jsonObj() {}
+  explicit JsonWrapper(const char* jsonStr) { m_jsonObj = json::parse(jsonStr); }
+  explicit JsonWrapper(const std::string& jsonStr) { m_jsonObj = json::parse(jsonStr); }
+  JsonWrapper(const JsonWrapper& json) {
+    clear();
+    m_jsonObj = json.m_jsonObj;
+  }
 
   virtual ~JsonWrapper() = default;
+
+  void parse(const char* jsonStr) {
+    clear();
+    m_jsonObj = json::parse(jsonStr);
+  }
+
+  void parse(const std::string& jsonStr) {
+    clear();
+    m_jsonObj = json::parse(jsonStr);
+  }
+
+  template<class T>
+  T get() { return m_jsonObj; }
+
+  const std::string dump() const { return m_jsonObj.dump(); }
+
+  void clear() { m_jsonObj.clear(); }
+  uint32_t size() const { return m_jsonObj.size(); }
+
+  bool empty() const { return m_jsonObj.empty(); }
+  bool hasKey(const std::string& key) { return m_jsonObj.find(key) != m_jsonObj.end(); }
+  bool hasKey(const char* key) { return m_jsonObj.find(key) != m_jsonObj.end(); }
+  bool hasIndex(int index) { return m_jsonObj[index].empty(); }
 
   bool getBool(const std::string& key) const { return m_jsonObj[key]; }
   int32_t getInt(const std::string& key) const { return m_jsonObj[key]; }
   uint32_t getUint(const std::string& key) const  { return m_jsonObj[key]; }
   const std::string getString(const std::string& key) const { return m_jsonObj[key]; }
+
+  JsonWrapper& operator=(const JsonWrapper& rhs) {
+    if (&rhs != this) {
+      return *this;
+    }
+
+    clear();
+    m_jsonObj = rhs.m_jsonObj;
+
+    return *this;
+  }
+
+  JsonWrapper operator[](const std::string& key) { return JsonWrapper(m_jsonObj[key].dump()); }
+  JsonWrapper operator[](int index) { return JsonWrapper(m_jsonObj.at(index).dump()); }
 
  private:
   json m_jsonObj;

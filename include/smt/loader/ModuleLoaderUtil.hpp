@@ -17,7 +17,7 @@
 namespace smt {
 namespace loader {
 
-using ModuleFactoryMap = std::map<std::string, smt::loader::AbstractModuleFactoryBase*>;
+using ModuleFactoryMap = std::map<std::string, loader::AbstractModuleFactoryBase*>;
 
 class ModuleLoaderUtil {
  public:
@@ -25,9 +25,11 @@ class ModuleLoaderUtil {
   static void registUserModule(const std::string& className, const std::string& baseCalssName);
 
   template <typename BaseModule>
-  static const smt::loader::AbstractModlueFactory<BaseModule>* getModuleFactory(const std::string& className);
+  static const loader::AbstractModlueFactory<BaseModule>* getModuleFactory(const std::string& className);
 
-  static bool searchModulebyClassNeme(const std::string& className);
+  static bool searchModuleFactorybyClassNeme(const std::string& className);
+
+  static void releaseModuleFactory(const std::string& className);
 
  private:
   static ModuleFactoryMap m_factoryMap;
@@ -46,7 +48,7 @@ void ModuleLoaderUtil::registUserModule(const std::string& className,
 
 template <typename BaseModule>
 const smt::loader::AbstractModlueFactory<BaseModule>* ModuleLoaderUtil::getModuleFactory(const std::string& className) {
-  if (ModuleLoaderUtil::searchModulebyClassNeme(className) == false) {
+  if (ModuleLoaderUtil::searchModuleFactorybyClassNeme(className) == false) {
     return nullptr;
   }
   return dynamic_cast<AbstractModlueFactory<BaseModule>*>(m_factoryMap[className]);

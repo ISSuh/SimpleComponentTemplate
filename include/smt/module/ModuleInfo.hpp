@@ -29,22 +29,22 @@ class BaseModuleInfo {
   const std::string m_baseClassName;
 };
 
-class UserModuleInfo : public BaseModuleInfo {
+class ModuleInfo : public BaseModuleInfo {
  public:
-  UserModuleInfo();
-  virtual ~UserModuleInfo() = default;
+  ModuleInfo();
+  virtual ~ModuleInfo() = default;
 
   bool parseModueInfoOnJson(util::JsonWrapper info);
 
-  const std::string& getUserModuleName() const { return m_userModuleName; }
-  const std::string& getUserClassName() const { return m_userClassName; }
+  const std::string& getModuleName() const { return m_userModuleName; }
+  const std::string& getClassName() const { return m_userClassName; }
   const std::string& getModulePath() const {return m_modulePath; }
   const util::JsonWrapper getModuleArgs() const { return m_moduleArgs; }
   const util::JsonWrapper getModuleConfigure() const { return m_moduleConfigure; }
 
  private:
-  void setUserModuleName(const std::string& moduleName);
-  void setUserClassName(const std::string& className);
+  void setModuleName(const std::string& moduleName);
+  void setClassName(const std::string& className);
   void setModulePath(const std::string& modulePath);
   void setModuleArgs(const util::JsonWrapper& args);
   void setModuleConfigure(const util::JsonWrapper& configures);

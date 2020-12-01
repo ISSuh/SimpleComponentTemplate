@@ -18,7 +18,6 @@ namespace loader {
 class ModuleOpener {
  public:
   static void moduleOpen(const std::string& path, int mode = RTLD_LAZY | RTLD_GLOBAL);
-  static void moduleClose();
 
  private:
   static void dlHandleDeletor(uint8_t* hadle);

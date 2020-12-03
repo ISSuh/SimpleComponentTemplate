@@ -15,7 +15,6 @@ set (CMAKE_CXX_FLAGS "-g -Wall -fPIC -rdynamic -ldl -C")
 #-------------------------------------------------------------------------------
 # Linking option about debug, release
 #-------------------------------------------------------------------------------
-# SET(CMAKE_C_FLAGS_DEBUG "-DDEBUG -DC_FLAGS")
 SET(CMAKE_EXE_LINKER_FLAGS_DEBUG "-DDEBUG -DLINKER_FLAGS")
 
 #-------------------------------------------------------------------------------

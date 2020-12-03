@@ -10,8 +10,6 @@
 
 #include "smt/util/JsonWrapper.hpp"
 
-// #include "smt/util/JsonWrapper.hpp"
-
 namespace smt {
 namespace module {
 
@@ -36,11 +34,25 @@ class ModuleInfo : public BaseModuleInfo {
 
   bool parseModueInfoOnJson(util::JsonWrapper info);
 
-  const std::string& getModuleName() const { return m_userModuleName; }
-  const std::string& getClassName() const { return m_userClassName; }
+  const std::string& getModuleName() const { return m_moduleName; }
+  const std::string& getClassName() const { return m_className; }
   const std::string& getModulePath() const {return m_modulePath; }
   const util::JsonWrapper getModuleArgs() const { return m_moduleArgs; }
   const util::JsonWrapper getModuleConfigure() const { return m_moduleConfigure; }
+
+  ModuleInfo operator=(const ModuleInfo& rhs) {
+    if (this == &rhs) {
+      return *this;
+    }
+
+    m_moduleName = rhs.m_moduleName;
+    m_className = rhs.m_className;
+    m_modulePath = rhs.m_modulePath;
+    m_moduleArgs = rhs.m_moduleArgs;
+    m_moduleConfigure = rhs.m_moduleConfigure;
+
+    return *this;
+  }
 
  private:
   void setModuleName(const std::string& moduleName);
@@ -50,8 +62,8 @@ class ModuleInfo : public BaseModuleInfo {
   void setModuleConfigure(const util::JsonWrapper& configures);
 
  private:
-  std::string m_userModuleName;
-  std::string m_userClassName;
+  std::string m_moduleName;
+  std::string m_className;
   std::string m_modulePath;
   util::JsonWrapper m_moduleArgs;
   util::JsonWrapper m_moduleConfigure;

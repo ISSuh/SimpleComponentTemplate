@@ -79,6 +79,7 @@ class JsonWrapper {
     return *this;
   }
 
+  JsonWrapper operator[](const char* key) { return JsonWrapper(m_jsonObj[key].dump()); }
   JsonWrapper operator[](const std::string& key) { return JsonWrapper(m_jsonObj[key].dump()); }
   JsonWrapper operator[](int index) { return JsonWrapper(m_jsonObj.at(index).dump()); }
 

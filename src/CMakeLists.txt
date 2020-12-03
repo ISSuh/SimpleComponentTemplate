@@ -29,7 +29,7 @@ SET(SMT_SOURCES_CONTROLLER
 )
 
 SET(SMT_SOURCES_LOADER
-  loader/ModuleLoader.cpp
+  # loader/ModuleLoader.cpp
   loader/ModuleLoaderManager.cpp
   loader/ModuleLoaderUtil.cpp
   loader/ModuleOpener.cpp

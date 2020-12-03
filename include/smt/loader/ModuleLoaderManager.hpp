@@ -7,30 +7,44 @@
 #define SMT_LOADER_MODULELOADERMANAGER_HPP_
 
 #include <string>
+#include <vector>
 #include <map>
 #include <memory>
 
+#include "smt/module/Module.hpp"
 #include "smt/loader/ModuleLoader.hpp"
+#include "smt/util/JsonWrapper.hpp"
 
 namespace smt {
 namespace loader {
+
+using LoaderId = uint64_t;
 
 class ModuleLoadManager {
  public:
   ModuleLoadManager();
   ~ModuleLoadManager();
 
-  void LoadModule(const std::string& moduleName);
-  void UnLoadModule();
+  void createModlueLoader(util::JsonWrapper specifications);
 
-  template <typename Base>
-  std::shared_ptr<Base> CreateClassObj(const std::string& moduleName, const std::string& className);
+  void loadModule(LoaderId id, const module::ModuleInfo& moduleName);
+  void loadAllModule();
+  void unLoadModule(LoaderId id, const ModuleName& moduleName);
+  void unLoadAllModule();
+
+  std::shared_ptr<module::Module> getModule(const ModuleName& moduleName);
+  bool hasModuleLoader(LoaderId id) const;
+  bool hasModule(const ModuleName& modulName) const;
+
+  LoaderId getLoaderIdByModuleName(const ModuleName& name) const { return m_loaderIdByModuleName.at(name); }
 
  private:
-  ModuleLoader* GetModuleLoader(const std::string& moduleName);
+  void paraseModuleSpecifications(LoaderId id, util::JsonWrapper specification);
 
  private:
-  std::map<std::string, std::unique_ptr<ModuleLoader>> m_loaderMap;
+  std::map<LoaderId, std::unique_ptr<ModuleLoader<module::Module>>> m_loaderMap;
+  std::map<LoaderId, ModuleInfomations> m_moduleInfomationsByLoader;
+  std::map<ModuleName, LoaderId> m_loaderIdByModuleName;
 };
 
 }  // namespace loader

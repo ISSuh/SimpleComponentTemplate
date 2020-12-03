@@ -8,9 +8,8 @@
 #include <fstream>
 #include <streambuf>
 
-#include "smt/loader/ModuleLoaderUtil.hpp"
+#include "smt/loader/ModuleLoaderManager.hpp"
 #include "smt/loader/ModuleLoader.hpp"
-#include "smt/loader/ModuleOpener.hpp"
 
 int main() {
   std::cout << "SimpleModule Node" << std::endl;
@@ -24,15 +23,16 @@ int main() {
   std::string jsonStr((std::istream_iterator<char>(jsonFile)),
                       std::istream_iterator<char>());
 
-  smt::loader::ModuleOpener::moduleOpen(TEST_MODULE_PATH);
-  smt::loader::ModuleLoader loader;
+  smt::loader::ModuleLoadManager loaderManager;
+  loaderManager.createModlueLoader(smt::util::JsonWrapper(jsonStr));
 
-  auto userModule = loader.createModule<smt::module::Module>("SampleModule");
+  loaderManager.loadAllModule();
+
+  auto userModule = loaderManager.getModule("SampleModule");
 
   userModule->initialize();
   userModule->process();
   userModule->shutdown();
 
-  // loader.unLoadModule("test");
-  loader.unLoadModule("SampleModule");
+  loaderManager.unLoadAllModule();
 }

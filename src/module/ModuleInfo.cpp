@@ -11,41 +11,41 @@
 namespace smt {
 namespace module {
 
-UserModuleInfo::UserModuleInfo()
+ModuleInfo::ModuleInfo()
   : BaseModuleInfo("Module", "Module"),
-    m_userModuleName(""),
-    m_userClassName(""),
+    m_moduleName(""),
+    m_className(""),
     m_modulePath(""),
     m_moduleArgs(),
     m_moduleConfigure() {}
 
-bool UserModuleInfo::parseModueInfoOnJson(util::JsonWrapper info) {
+bool ModuleInfo::parseModueInfoOnJson(util::JsonWrapper info) {
   if (!info.hasKey(util::JSONKEY::MODULE_NAME)) {
-    std::cout << "UserModuleInfo::parseModueInfoOnJson - "
+    std::cout << "ModuleInfo::parseModueInfoOnJson - "
               << " Parse Error. Chek json key [module_name]" << std::endl;
     return false;
   }
-  setUserModuleName(info[util::JSONKEY::MODULE_NAME].get<std::string>());
+  setModuleName(info[util::JSONKEY::MODULE_NAME].get<std::string>());
 
   if (!info.hasKey(util::JSONKEY::MODULE_PATH)) {
-    std::cout << "UserModuleInfo::parseModueInfoOnJson - "
+    std::cout << "ModuleInfo::parseModueInfoOnJson - "
               << " Parse Error. Chek json key [module_path]" << std::endl;
     return false;
   }
   setModulePath(info[util::JSONKEY::MODULE_PATH].get<std::string>());
 
   if (!info.hasKey(util::JSONKEY::MODULE)) {
-    std::cout << "UserModuleInfo::parseModueInfoOnJson - "
+    std::cout << "ModuleInfo::parseModueInfoOnJson - "
               << " Parse Error. Chek json key [Module]" << std::endl;
     return false;
   }
 
   if (info[util::JSONKEY::MODULE].hasKey(util::JSONKEY::CLASS_NAME)) {
-    std::cout << "UserModuleInfo::parseModueInfoOnJson - "
+    std::cout << "ModuleInfo::parseModueInfoOnJson - "
               << " Parse Error. Chek json key [class_name]" << std::endl;
     return false;
   }
-  setUserClassName(info[util::JSONKEY::MODULE][util::JSONKEY::CLASS_NAME].get<std::string>());
+  setClassName(info[util::JSONKEY::MODULE][util::JSONKEY::CLASS_NAME].get<std::string>());
 
   if (info[util::JSONKEY::MODULE].hasKey(util::JSONKEY::ARGS)) {
     setModuleArgs(info[util::JSONKEY::MODULE][util::JSONKEY::CONFIGURE]);
@@ -58,19 +58,19 @@ bool UserModuleInfo::parseModueInfoOnJson(util::JsonWrapper info) {
   return true;
 }
 
-void UserModuleInfo::setUserModuleName(const std::string& moduleName) {
-  m_userModuleName = moduleName;
+void ModuleInfo::setModuleName(const std::string& moduleName) {
+  m_moduleName = moduleName;
 }
-void UserModuleInfo::setUserClassName(const std::string& className) {
-  m_userClassName = className;
+void ModuleInfo::setClassName(const std::string& className) {
+  m_className = className;
 }
-void UserModuleInfo::setModulePath(const std::string& modulePath) {
+void ModuleInfo::setModulePath(const std::string& modulePath) {
   m_modulePath = modulePath;
 }
-void UserModuleInfo::setModuleArgs(const util::JsonWrapper& args) {
+void ModuleInfo::setModuleArgs(const util::JsonWrapper& args) {
   m_moduleArgs = args;
 }
-void UserModuleInfo::setModuleConfigure(const util::JsonWrapper& configures) {
+void ModuleInfo::setModuleConfigure(const util::JsonWrapper& configures) {
   m_moduleConfigure = configures;
 }
 

@@ -17,7 +17,6 @@ class SampleModule final : public smt::module::Module {
   void terminate() override;
 
  private:
-  std::string str;
   int m_int_test;
   float m_float_test;
   bool m_bool_test;

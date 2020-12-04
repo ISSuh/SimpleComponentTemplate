@@ -1,18 +1,7 @@
-/******************************************************************************
- * Copyright 2019 The ISSuh Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *****************************************************************************/
+/**
+ * Copyright 2020 The ISSuh Authors. All Rights Reserved.
+ * Distributed under the MIT License (http://opensource.org/licenses/MIT)
+ */
 
 #ifndef SMT_UTIL_LOGGER_HPP_
 #define SMT_UTIL_LOGGER_HPP_
@@ -30,11 +19,11 @@ namespace util {
 
 using LogerLevel = spdlog::level::level_enum;
 
-class Logger final {
+class LoggerManager final {
  public:
-  Logger() {
-    m_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-    spdlog::set_pattern("*** [%H:%M:%S %z] [thread %t] %v ***");
+  static LoggerManager* getInstance() {
+    static LoggerManager* singleton = new LoggerManager();
+    return singleton;
   }
 
   void AddLogger(const std::string& loggerName) {
@@ -47,9 +36,17 @@ class Logger final {
   }
 
  private:
+  LoggerManager() {
+    m_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    spdlog::set_pattern("*** [%H:%M:%S %z] [thread %t] %v ***");
+  }
+
+ private:
   std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> m_sink;
   std::map<std::string, std::shared_ptr<spdlog::logger>> m_logger;
 };
+
+
 
 }  // namespace util
 }  // namespace smt

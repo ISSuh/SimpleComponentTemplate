@@ -49,12 +49,12 @@ bool ModuleInfo::parseModueInfoOnJson(util::JsonWrapper info) {
   }
   setClassName(info[util::JSONKEY::MODULE][util::JSONKEY::CLASS_NAME].get<std::string>());
 
-  if (!moduleInfo.hasKey(util::JSONKEY::ARGS)) {
-    setModuleArgs(info[util::JSONKEY::MODULE][util::JSONKEY::CONFIGURE]);
+  if (moduleInfo.hasKey(util::JSONKEY::ARGS)) {
+    setModuleArgs(moduleInfo[util::JSONKEY::ARGS]);
   }
 
-  if (!moduleInfo.hasKey(util::JSONKEY::CONFIGURE)) {
-    setModuleConfigure(info[util::JSONKEY::MODULE][util::JSONKEY::CONFIGURE]);
+  if (moduleInfo.hasKey(util::JSONKEY::CONFIGURE)) {
+    setModuleConfigure(moduleInfo[util::JSONKEY::CONFIGURE]);
   }
 
   return true;

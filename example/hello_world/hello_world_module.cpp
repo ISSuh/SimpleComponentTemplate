@@ -8,15 +8,21 @@
 #include "hello_world_module.hpp"
 
 void SampleModule::init() {
-  str = "Hello World!";
-  // GetParam("int_test", m_int_test);
-  // GetParam("float_test", m_float_test);
-  // GetParam("bool_test", m_bool_test);
-  // GetParam("string_test", m_string_test);
+  std::cout << "SampleModule::init()" << '\n';
+
+  getArgument<int>("int_test", m_int_test);
+  getArgument<float>("float_test", m_float_test);
+  getArgument<bool>("bool_test", m_bool_test);
+  getArgument<std::string>("string_test", m_string_test);
 }
 
 void SampleModule::run() {
-  std::cout << str << '\n';
+  std::cout << "SampleModule::init()" << '\n';
+
+  std::cout << m_int_test << std::endl;
+  std::cout << m_float_test << std::endl;
+  std::cout << m_bool_test << std::endl;
+  std::cout << m_string_test << std::endl;
 }
 
 void SampleModule::terminate() {

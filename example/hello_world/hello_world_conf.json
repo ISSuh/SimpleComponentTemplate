@@ -12,8 +12,7 @@
                     "int_test" : 1,
                     "float_test" : 1.1,
                     "bool_test" : true,
-                    "string_test" : "Hello World!",
-                    "array_test" : [1, 2, 3, 4, 5]
+                    "string_test" : "Hello World!"
                 },
                 "configure" : {
                     "threading" : false
@@ -29,8 +28,7 @@
                     "int_test" : 1,
                     "float_test" : 1.1,
                     "bool_test" : true,
-                    "string_test" : "Hello World!",
-                    "array_test" : [1, 2, 3, 4, 5]
+                    "string_test" : "Hello World!"
                 },
                 "configure" : {
                     "threading" : false

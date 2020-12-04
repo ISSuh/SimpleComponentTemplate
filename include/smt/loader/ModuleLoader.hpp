@@ -57,7 +57,10 @@ void ModuleLoader<Base>::loadModule(const module::ModuleInfo& info) {
 
   smt::loader::ModuleOpener::moduleOpen(modulePath);
 
-  m_moduleObjectMap[moduleName] = std::move(createModuleObject(moduleClassName));
+  std::shared_ptr<Base> module = createModuleObject(moduleClassName);
+  module->setArguments(m_moduleInfomationsMap[moduleName].getModuleArgs());
+
+  m_moduleObjectMap[moduleName] = std::move(module);
 }
 
 template <typename Base>
@@ -68,7 +71,8 @@ void ModuleLoader<Base>::unLoadModule(const ModuleName& moduleName) {
 }
 
 template <typename Base>
-std::shared_ptr<Base> ModuleLoader<Base>::getModule(const ModuleName& moduleName) const {
+std::shared_ptr<Base> ModuleLoader<Base>::getModule(
+  const ModuleName& moduleName) const {
   if (!hasModule(moduleName)) {
     return nullptr;
   }
@@ -84,20 +88,23 @@ bool ModuleLoader<Base>::hasModule(const ModuleName& moduleName) const {
 }
 
 template <typename Base>
-std::shared_ptr<Base> ModuleLoader<Base>::createModuleObject(const ModuleClassName& moduleClassName) {
-  std::cout << "ModuleLoader::createModuleObject - " << moduleClassName << std::endl;
+std::shared_ptr<Base> ModuleLoader<Base>::createModuleObject(
+    const ModuleClassName& moduleClassName) {
+  std::cout << "ModuleLoader::createModuleObject - "
+            << moduleClassName << std::endl;
 
-  if (ModuleLoaderUtil::searchModuleFactorybyClassNeme(moduleClassName) == false) {
-    std::cout << "ModuleLoader::createModuleObject - " << moduleClassName << " load fail" << std::endl;
+  if (!ModuleLoaderUtil::searchModuleFactorybyClassNeme(moduleClassName)) {
+    std::cout << "ModuleLoader::createModuleObject - "
+              << moduleClassName << " load fail" << std::endl;
     return nullptr;
   }
 
-  const loader::AbstractModlueFactory<Base>* factory(ModuleLoaderUtil::getModuleFactory<Base>(moduleClassName));
+  const loader::AbstractModlueFactory<Base>*
+    factory(ModuleLoaderUtil::getModuleFactory<Base>(moduleClassName));
 
   // std::lock_guard<std::mutex> lock(m_loadedModuleCount_mutex);
-  std::shared_ptr<Base> moduleObject = std::shared_ptr<Base>(factory->createModule());
-
-  return std::move(moduleObject);
+  // std::shared_ptr<Base> moduleObject = std::shared_ptr<Base>();
+  return std::move(factory->createModule());
 }
 
 template <typename Base>

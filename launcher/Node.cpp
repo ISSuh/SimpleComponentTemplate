@@ -14,8 +14,6 @@
 int main() {
   std::cout << "SimpleModule Node" << std::endl;
 
-  const std::string TEST_MODULE_PATH =
-      "/home/issuh/workspace/myProject/SimpleModule/build/lib/libhello_world.so";
   const std::string TEST_MODULE_JSON_PATH =
       "/home/issuh/workspace/myProject/SimpleModule/example/hello_world/hello_world_conf.json";
 
@@ -28,11 +26,16 @@ int main() {
 
   loaderManager.loadAllModule();
 
-  auto userModule = loaderManager.getModule("SampleModule");
+  auto userModule0 = loaderManager.getModule("Sample_0");
+  auto userModule1 = loaderManager.getModule("Sample_1");
 
-  userModule->initialize();
-  userModule->process();
-  userModule->shutdown();
+  userModule0->initialize();
+  userModule0->process();
+  userModule0->shutdown();
+
+  userModule1->initialize();
+  userModule1->process();
+  userModule1->shutdown();
 
   loaderManager.unLoadAllModule();
 }

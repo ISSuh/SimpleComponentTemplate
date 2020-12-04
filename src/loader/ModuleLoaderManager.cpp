@@ -16,7 +16,7 @@ ModuleLoadManager::ModuleLoadManager() {}
 ModuleLoadManager::~ModuleLoadManager() {}
 
 void ModuleLoadManager::createModlueLoader(util::JsonWrapper specifications) {
-  std::cout << "ModuleLoadManager::createModlueLoader";
+  std::cout << "ModuleLoadManager::createModlueLoader\n";
 
   LoaderId id = util::idGenerator();
   paraseModuleSpecifications(id, specifications);
@@ -53,6 +53,7 @@ void ModuleLoadManager::unLoadAllModule() {
 
 std::shared_ptr<module::Module> ModuleLoadManager::getModule(const ModuleName& moduleName) {
   LoaderId id = m_loaderIdByModuleName[moduleName];
+  std::cout << "ModuleLoadManager::getModule - " << id << " / " << moduleName << std::endl;
   return std::move(m_loaderMap[id]->getModule(moduleName));
 }
 
@@ -79,7 +80,7 @@ bool ModuleLoadManager::hasModule(const ModuleName& modulName) const {
 
 void ModuleLoadManager::paraseModuleSpecifications(LoaderId id, util::JsonWrapper specifications) {
   ModuleInfomations infomations;
-  util::JsonWrapper modules(specifications[util::JSONKEY::MODULE]);
+  util::JsonWrapper modules(specifications[util::JSONKEY::MODULES]);
   for (uint32_t i = 0 ; i < modules.size() ; ++i) {
     module::ModuleInfo info;
     info.parseModueInfoOnJson(modules[i]);

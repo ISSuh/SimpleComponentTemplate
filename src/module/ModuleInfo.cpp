@@ -40,18 +40,20 @@ bool ModuleInfo::parseModueInfoOnJson(util::JsonWrapper info) {
     return false;
   }
 
-  if (info[util::JSONKEY::MODULE].hasKey(util::JSONKEY::CLASS_NAME)) {
+  util::JsonWrapper moduleInfo(info[util::JSONKEY::MODULE]);
+
+  if (!moduleInfo.hasKey(util::JSONKEY::CLASS_NAME)) {
     std::cout << "ModuleInfo::parseModueInfoOnJson - "
               << " Parse Error. Chek json key [class_name]" << std::endl;
     return false;
   }
   setClassName(info[util::JSONKEY::MODULE][util::JSONKEY::CLASS_NAME].get<std::string>());
 
-  if (info[util::JSONKEY::MODULE].hasKey(util::JSONKEY::ARGS)) {
+  if (!moduleInfo.hasKey(util::JSONKEY::ARGS)) {
     setModuleArgs(info[util::JSONKEY::MODULE][util::JSONKEY::CONFIGURE]);
   }
 
-  if (info[util::JSONKEY::MODULE].hasKey(util::JSONKEY::CONFIGURE)) {
+  if (!moduleInfo.hasKey(util::JSONKEY::CONFIGURE)) {
     setModuleConfigure(info[util::JSONKEY::MODULE][util::JSONKEY::CONFIGURE]);
   }
 

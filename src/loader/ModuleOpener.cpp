@@ -26,7 +26,7 @@ void ModuleOpener::moduleOpen(const std::string& path, int mode) {
 }
 
 void ModuleOpener::dlHandleDeletor(uint8_t* hadle) {
-  delete hadle;
+  dlclose(static_cast<void*>(hadle));
 }
 
 }  // namespace loader

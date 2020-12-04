@@ -57,7 +57,7 @@ void ModuleLoader<Base>::loadModule(const module::ModuleInfo& info) {
 
   smt::loader::ModuleOpener::moduleOpen(modulePath);
 
-  m_moduleObjectMap[modulePath] = std::move(createModuleObject(moduleClassName));
+  m_moduleObjectMap[moduleName] = std::move(createModuleObject(moduleClassName));
 }
 
 template <typename Base>
